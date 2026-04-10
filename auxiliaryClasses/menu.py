@@ -2,10 +2,10 @@ import tkinter as tk
 
 import customtkinter as ctk
 
-from auxiliaryClasses.window import Window
+from auxiliaryClasses.baseWindow import BaseWindow
 
 
-class Menu(Window):
+class Menu(BaseWindow):
     def __init__(self, parent, title):
         super().__init__(parent, title)
     

@@ -5,10 +5,9 @@ import numpy as np
 import customtkinter as ctk
 
 import config
-from courseThemes.integration import Integration
+from auxiliaryClasses.baseIntegration import BaseIntegration
 
-
-class RungeDialog(Integration):
+class RungeDialog(BaseIntegration):
     def __init__(self, parent):
         self.parent = parent
         self.runge_dialog = None

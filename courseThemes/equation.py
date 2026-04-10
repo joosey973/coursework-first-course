@@ -6,10 +6,10 @@ import customtkinter as ctk
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-from auxiliaryClasses.window import Window
+from auxiliaryClasses.baseWindow import BaseWindow
 
 
-class Equation(Window):
+class Equation(BaseWindow):
     def __init__(self, parent, title):
         self.photos = []
         self.sections = []
@@ -287,8 +287,9 @@ class Equation(Window):
         else:
             tkm.showwarning('Предупреждение', 'Не удалось найти подходящий отрезок')
     
-    def find_section(self, function_choice, a=0, step=0.05):
-        b = a + step
+    def find_section(self, function_choice, a=0, b=0, step=0.05):
+        if b == 0:
+            b = a + step
         flag = True
         while flag:
             x = np.linspace(a, b, int((b - a) / step) + 1)
@@ -305,6 +306,7 @@ class Equation(Window):
                     sections.append((np.round(ls[i - 1][-1], 5), np.round(ls[i][-1], 5)))
                     flag = False
             b += step
+        sections = sorted(sections, key=lambda x: abs(x[0] - x[1]))
         return sections
     
     def dihotomia(self, section, eps, function_choice):
@@ -404,7 +406,6 @@ class Equation(Window):
                 xn = xn - self.first_function(xn) / M
             else:
                 xn = xn - self.second_function(xn) / M
-            print(xn)
             if np.abs(xn - xn_last) <= float(eps):
                 return np.round(xn, 9), iterations
             xn_last = xn
@@ -422,9 +423,10 @@ class Equation(Window):
         b = float(self.b_field.get().replace(',', '.'))
         eps = float(self.eps_field.get().replace(',', '.'))
         
+        segment = self.find_section(function_choice, a, b)
+        a, b = segment[0][0], segment[0][1]
         fa = self.find_function_values(a, function_choice)
         fb = self.find_function_values(b, function_choice)
-        
         if fa * fb > 0:
             self.show_error('На указанном отрезке может не быть корня.\n')
             return
