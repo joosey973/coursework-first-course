@@ -55,6 +55,5 @@ class BaseWindow(tk.Frame):
             return False
 
     def initUI(self):
-        print(self.title, True)
         self.parent.title(self.title)
         self.centrize_window()
