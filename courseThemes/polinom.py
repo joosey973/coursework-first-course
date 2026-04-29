@@ -192,7 +192,7 @@ class Polinom(BaseWindow):
         
         if not self.x_y_list:
             x = [-1, -0.5, 0, 0.5, 1, 1.5]
-            y = [0, 2, ъ, -4, 3, 7]
+            y = [0, 2, -1.5, -4, 3, 7]
             self.x_y_list = list(zip(x, y))
             self.update_listbox()
             self.update_polinom_field()
