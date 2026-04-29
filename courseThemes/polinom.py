@@ -192,7 +192,7 @@ class Polinom(BaseWindow):
         
         if not self.x_y_list:
             x = [-1, -0.5, 0, 0.5, 1, 1.5]
-            y = [0, 2, -1.5, -4, 3, 7]
+            y = [0, 2, ъ, -4, 3, 7]
             self.x_y_list = list(zip(x, y))
             self.update_listbox()
             self.update_polinom_field()
@@ -217,7 +217,7 @@ class Polinom(BaseWindow):
     def remove_values(self):
         selected_values = self.values_listbox.curselection()
         if not selected_values:
-            self.show_popup('Не выбрано значение для удаления', 'info')
+            self.show_popup('Не выбраны значения для удаления', 'info')
             return
 
         selected_values = selected_values[0]

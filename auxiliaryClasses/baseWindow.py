@@ -15,12 +15,14 @@ class BaseWindow(tk.Frame):
         from courseThemes.integration import Integration
         from courseThemes.equation import Equation
         from courseThemes.polinom import Polinom
+        from courseThemes.mnk import MNK
         from auxiliaryClasses.menu import Menu
         
         window_classes = {
             'Интегралы': Integration,
             'Уравнения': Equation,
             'Полиномы': Polinom,
+            'МНК': MNK,
             'Меню': Menu,
         }
         
@@ -28,6 +30,7 @@ class BaseWindow(tk.Frame):
             'Интегралы': 'Численное интегрирование (Интегралы)',
             'Уравнения': 'Решение НУ',
             'Полиномы': 'Решение полинома',
+            'МНК': 'Аппроксимация МНК',
             'Меню': 'Курсовая работа - Меню',
         }
         
