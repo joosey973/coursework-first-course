@@ -1,7 +1,16 @@
 import tkinter as tk
+import customtkinter as ctk
 
 
-class BaseWindow(tk.Frame):
+class BaseMethods:
+    def check_is_number(self, number):
+        try:
+            float(number)
+            return True
+        except ValueError:
+            return False
+
+class BaseWindow(BaseMethods, tk.Frame):
     def __init__(self, parent, title, width=500, height=400):
         tk.Frame.__init__(self, parent)
         self.parent = parent
@@ -49,13 +58,6 @@ class BaseWindow(tk.Frame):
         x, y = (sw - self.width) // 2, (sh - self.height) // 2
         self.parent.geometry(f'{self.width}x{self.height}+{x}+{y}')
         self.parent.resizable(False, False)
-    
-    def check_is_number(self, number):
-        try:
-            float(number)
-            return True
-        except ValueError:
-            return False
 
     def initUI(self):
         self.parent.title(self.title)
