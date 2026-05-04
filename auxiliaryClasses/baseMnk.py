@@ -66,7 +66,7 @@ class BaseMNK(BaseMethods):
         y = [val[1] for val in self.x_y_list]
         for i in range(len(y)):
             diff_squared += (y[i] - f[i]) ** 2
-        return round(diff_squared / len(y), 3)
+        return round(diff_squared, 3)
     
     def show_graphic(self):
         self.GRAPHIC_FRAME_WIDTH = 450
@@ -174,6 +174,9 @@ class BaseMNK(BaseMethods):
         elif popup_type == 'info':
             tkm.showerror('Информация', message=text)
     
+    def clear_fields(self, warned=False):
+        pass
+
     def update_listbox(self):
         formatted_values = self.format_values()
         self.x_y_var.set(formatted_values)

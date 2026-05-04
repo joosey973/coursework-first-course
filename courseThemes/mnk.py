@@ -71,9 +71,10 @@ class MNK(BaseMNK, BaseWindow):
         linear_coefs = self.find_linear_coefficients(x, y)
         if len(x) > 2:
             quadratic_coefs = self.find_quadratic_coefficients(x, y)
+            exponential_coefs = self.find_own_coefficients(x, y)
         else:
             quadratic_coefs = None
-        exponential_coefs = self.find_own_coefficients(x, y)
+            exponential_coefs = None
         return linear_coefs, quadratic_coefs, exponential_coefs
     
     def create_buttons(self):
@@ -178,22 +179,26 @@ class MNK(BaseMNK, BaseWindow):
     def build_graphic(self, coef1=None, coef2=None, coef3=None):
         self.ax.clear()
         self.ax.grid(True, alpha=0.3)
+        x_dots = []
+        y_dots = []
+        for x, y in self.x_y_list:
+            x_dots.append(x)
+            y_dots.append(y)
         if coef1 is not None:
-            x_dots = []
-            y_dots = []
-            for x, y in self.x_y_list:
-                x_dots.append(x)
-                y_dots.append(y)
             y1 = [coef1[0] * x_val + coef1[1] for x_val, _ in self.x_y_list]
-            y2 = [coef2[0] * x_val ** 2 + coef2[1] * x_val + coef2[2] for x_val, _ in self.x_y_list]
-            y3 = [coef3[0] * math.e ** (-coef3[1] * x_val) for x_val, _ in self.x_y_list]
             self.ax.plot(x_dots, y1, linewidth=2, label='Линейная регрессия', color='green')
+            
+        if coef2 is not None:
+            y2 = [coef2[0] * x_val ** 2 + coef2[1] * x_val + coef2[2] for x_val, _ in self.x_y_list]
             self.ax.plot(x_dots, y2, linewidth=2, label='Квадратичная регрессия', color='red')
+        
+        if coef3 is not None:
+            y3 = [coef3[0] * math.e ** (-coef3[1] * x_val) for x_val, _ in self.x_y_list]
             self.ax.plot(x_dots, y3, linewidth=2, label='Экспоненциальная регрессия', color='black')
-            self.ax.scatter(x_dots, y_dots, label='Экспериментальные точки', marker='o', color='blue')
-            self.ax.legend()
+        self.ax.scatter(x_dots, y_dots, label='Экспериментальные точки', marker='o', color='blue')
+        self.ax.legend()
         self.canvas.draw()
-    
+
     def create_answers_fields(self):
         WIDTH = 250
         HEIGHT = 35
@@ -219,7 +224,7 @@ class MNK(BaseMNK, BaseWindow):
     def create_deviations_fields(self):
         WIDTH = 100
         HEIGHT = 35
-        sum_label = ctk.CTkLabel(self, text='Среднее квадратичное отклонение', wraplength=100, justify=tk.LEFT, font=('Arial', 15, 'bold'))
+        sum_label = ctk.CTkLabel(self, text='Сумма квадратов отколнений', wraplength=100, justify=tk.LEFT, font=('Arial', 15, 'bold'))
 
         self.linear_devitation_field = ctk.CTkEntry(self, width=WIDTH, height=HEIGHT, corner_radius=15)
         self.quadratic_devitation_field = ctk.CTkEntry(self, width=WIDTH, height=HEIGHT, corner_radius=15)
