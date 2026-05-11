@@ -235,7 +235,7 @@ class MKR(BaseWindow):
         
         terms = []
         for i in range(len(x) - 1, -1, -1):
-            coeff = round(coefs[i], 3)
+            coeff = round(coefs[i], 6)
             if i == 0:
                 terms.append(f'{coeff}')
             elif i == 1:
