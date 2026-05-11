@@ -9,49 +9,6 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from auxiliaryClasses.baseWindow import BaseMethods
 
 class BaseMNK(BaseMethods):
-    def find_minor(self, matrix, row, col):
-        matrix = [cop[:] for cop in matrix]
-        del matrix[row]
-        for i in range(len(matrix)):
-            matrix[i] = matrix[i][:col] + matrix[i][col + 1:]
-        return matrix
-    
-    def find_determinante(self, matrix):
-        if len(matrix) == 1:
-            return matrix[0][0]
-        
-        if len(matrix) == 2:
-            return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
-        summa = 0
-        for j in range(len(matrix)):
-            summa += matrix[0][j] * (-1) ** j * self.find_determinante(self.find_minor(matrix, 0, j))
-        return summa
-
-    def find_reversed_matrix(self, matrix, det=None):
-        if det is None:
-            det = self.find_determinante(matrix)
-
-        if det == 0:
-            return
-
-        arr = []
-        for i in range(len(matrix)):
-            temp = []
-            for j in range(len(matrix)):
-                alg_dop = (-1) ** (i + j) * self.find_determinante(self.find_minor(matrix, i, j))
-                temp.append(alg_dop)
-            arr.append(temp)
-        rev_arr = list(map(lambda x: [i / det for i in x], zip(*arr)))
-        return rev_arr
-
-    def matrix_multiplication(self, A, B):
-        result = [[0 for _ in range(len(B[0]))] for _ in range(len(A))]
-        for i in range(len(A)):
-            for j in range(len(B[0])):
-                for k in range(len(B)):
-                    result[i][j] += A[i][k] * B[k][j]
-        return result
-    
     def insert_base_dots(self):
         x = [0.01, 0.02, 0.1, 0.2, 0.34, 0.4, 0.55, 0.6, 0.77, 0.87, 0.9, 1]
         y = [10, 9.2, 8.5, 6.1, 4.3, 3.4, 3.3, 2.5, 2.2, 1.5, 1.1, 0.1]
