@@ -26,7 +26,7 @@ class TopLevel(BaseMNK, ctk.CTkToplevel):
         self.GRAPHIC_FRAME_HEIGHT = 320
         self.config(bg=config.BACKGROUNG_COLOR)
         self.initTopLevel()
-    
+
     def create_text_field(self):
         super().create_text_field()
         self.x_label.place(relx=0.095, rely=0.03)
@@ -213,7 +213,10 @@ class TopLevel(BaseMNK, ctk.CTkToplevel):
             test_font.configure(size=font_size)
             text_width = test_font.measure(text)
 
-        self.approxima_func_field.configure(font=("Arial", font_size), bg_color=config.BACKGROUNG_COLOR)
+        self.approxima_func_field.configure(
+            font=("Arial", font_size),
+            bg_color=config.BACKGROUNG_COLOR,
+        )
 
     def on_change_clear(self, txt=""):
         self.ax.clear()
@@ -264,7 +267,10 @@ class TopLevel(BaseMNK, ctk.CTkToplevel):
             basis_num = [sp.lambdify(x_sym, bf, "numpy") for bf in basis_sym]
 
             A = np.array(
-                [[float(basis_num[j](x)) for j in range(len(params))] for x in x_data]
+                [
+                    [float(basis_num[j](x)) for j in range(len(params))]
+                    for x in x_data
+                ],
             )
             b = np.array(y_data, dtype=float)
 
@@ -596,6 +602,7 @@ class TopLevel(BaseMNK, ctk.CTkToplevel):
                 for p in params:
                     coeff = float(subs_expr.coeff(param_syms[p]))
                     row.append(coeff)
+
                 A.append(row)
 
             A = np.array(A, dtype=float)
@@ -603,13 +610,16 @@ class TopLevel(BaseMNK, ctk.CTkToplevel):
 
             if rank == 0:
                 return False, (
-                    "Функция не зависит от параметров — невозможно построить аппроксимацию."
+                    "Функция не зависит от параметров"
+                    " — невозможно построить аппроксимацию.",
                 )
 
             if rank == 1 and len(params) > 1:
                 return False, (
-                    "Математическая ошибка: все параметры являются неразличимыми.\n\n"
-                    "Например, 1/(a*x + b*x) ≡ 1/((a+b)*x) — это одна степень\n"
+                    "Математическая ошибка: все параметры"
+                    " являются неразличимыми.\n\n"
+                    "Например, 1/(a*x + b*x) "
+                    "≡ 1/((a+b)*x) — это одна степень\n"
                     "свободы. МНК распределит коэффициент между a и b\n"
                     "произвольно, результат будет бессмысленным.\n\n"
                     "Используйте форму с независимыми параметрами:\n"
@@ -620,7 +630,7 @@ class TopLevel(BaseMNK, ctk.CTkToplevel):
 
         except Exception as e:
             return False, f"Ошибка разбора функции: {e}"
-    
+
     def validate_polynomial_form(self, func_str):
         try:
             func_str_sympy = func_str.replace("^", "**")
@@ -637,7 +647,8 @@ class TopLevel(BaseMNK, ctk.CTkToplevel):
                 if d != 1:
                     return False, (
                         f"Параметр '{p}' должен входить линейно.\n"
-                        "Полиномиальная регрессия поддерживает только линейные по параметрам функции."
+                        "Полиномиальная регрессия поддерживает только"
+                        " линейные по параметрам функции."
                     )
 
             basis_sym = [sp.diff(expr, param_syms[p]) for p in params]
@@ -649,7 +660,8 @@ class TopLevel(BaseMNK, ctk.CTkToplevel):
 
             if rank == 0:
                 return False, (
-                    "Функция не зависит от x — невозможно построить аппроксимацию."
+                    "Функция не зависит от x —"
+                    " невозможно построить аппроксимацию."
                 )
 
             if rank == 1 and len(params) > 1:
@@ -658,12 +670,17 @@ class TopLevel(BaseMNK, ctk.CTkToplevel):
                 )
                 if not has_constant:
                     return False, (
-                        "Математическая ошибка: все параметры стоят при одной\n"
+                        "Математическая ошибка: все параметры "
+                        "стоят при одной\n"
                         "степени x и являются неразличимыми.\n\n"
-                        "Например, a*x + b*x ≡ (a+b)*x — это одна степень\n"
-                        "свободы. МНК распределит коэффициент между a и b\n"
-                        "произвольно, результат будет бессмысленным.\n\n"
-                        "Используйте форму с независимыми параметрами:\n"
+                        "Например, a*x + b*x ≡ (a+b)*x —"
+                        " это одна степень\n"
+                        "свободы. МНК распределит коэффициент"
+                        " между a и b\n"
+                        "произвольно, результат будет"
+                        " бессмысленным.\n\n"
+                        "Используйте форму с"
+                        " независимыми параметрами:\n"
                         "a*x + b  или  a*x^2 + b*x + c"
                     )
 
@@ -687,7 +704,7 @@ class TopLevel(BaseMNK, ctk.CTkToplevel):
 
         if approximation_type == "Полиномиальная регрессия":
             func_str = self.approxima_view_field.get().lower()
-            
+
             valid, msg = self.validate_polynomial_form(func_str)
             if not valid:
                 self.show_popup(msg, "error")
@@ -766,7 +783,7 @@ class TopLevel(BaseMNK, ctk.CTkToplevel):
 
         elif approximation_type == "Дробно-рациональная (общая)":
             func_str = self.approxima_view_field.get().lower()
-            
+
             valid, msg = self.validate_rational_form(func_str)
             if not valid:
                 self.show_popup(msg, "error")

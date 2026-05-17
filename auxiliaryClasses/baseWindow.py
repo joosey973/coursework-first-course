@@ -139,11 +139,13 @@ class BaseWindow(BaseMethods, tk.Frame):
         self.parent.config(bg=config.BACKGROUNG_COLOR)
         self.config(bg=config.BACKGROUNG_COLOR)
         self.initUI()
-    
+
     def from_author(self):
         import webbrowser
 
-        REPO_URL = "https://github.com/joosey973/coursework-first-course.git#readme"
+        REPO_URL = (
+            "https://github.com/joosey973/coursework-first-course.git#readme"
+        )
         webbrowser.open(REPO_URL)
 
     def create_new_window(self, window_name, x=None, y=None):
@@ -183,7 +185,7 @@ class BaseWindow(BaseMethods, tk.Frame):
         root = tk.Tk()
         app_class = window_classes.get(window_name)
         title = window_titles.get(window_name, window_name)
-        
+
         if app_class:
             _ = app_class(root, title, x=x, y=y)
             root.mainloop()
