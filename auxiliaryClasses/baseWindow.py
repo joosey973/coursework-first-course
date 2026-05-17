@@ -83,7 +83,7 @@ class BaseMethods:
         matrix = [cop[:] for cop in matrix]
         del matrix[row]
         for i in range(len(matrix)):
-            matrix[i] = matrix[i][:col] + matrix[i][col + 1:]
+            matrix[i] = matrix[i][:col] + matrix[i][col + 1 :]
 
         return matrix
 
@@ -150,23 +150,23 @@ class BaseWindow(BaseMethods, tk.Frame):
         from settings import Settings
 
         window_classes = {
-            'Интегралы': Integration,
-            'Уравнения': Equation,
-            'Полиномы': Polinom,
-            'МНК': MNK,
-            'МКР': MKR,
-            'Меню': Menu,
-            'Настройки': Settings,
+            "Интегралы": Integration,
+            "Уравнения": Equation,
+            "Полиномы": Polinom,
+            "МНК": MNK,
+            "МКР": MKR,
+            "Меню": Menu,
+            "Настройки": Settings,
         }
 
         window_titles = {
-            'Интегралы': 'Численное интегрирование (Интегралы)',
-            'Уравнения': 'Решение НУ',
-            'Полиномы': 'Решение полинома',
-            'МНК': 'Аппроксимация МНК',
-            'МКР': 'Метод конечных разностей',
-            'Меню': 'Курсовая работа - Меню',
-            'Настройки': 'Настройки',
+            "Интегралы": "Численное интегрирование (Интегралы)",
+            "Уравнения": "Решение НУ",
+            "Полиномы": "Решение полинома",
+            "МНК": "Аппроксимация МНК",
+            "МКР": "Метод конечных разностей",
+            "Меню": "Курсовая работа - Меню",
+            "Настройки": "Настройки",
         }
 
         self.parent.destroy()
@@ -183,12 +183,12 @@ class BaseWindow(BaseMethods, tk.Frame):
             sw = self.parent.winfo_screenwidth()
             sh = self.parent.winfo_screenheight()
             x, y = (sw - self.width) // 2, (sh - self.height) // 2
-            self.parent.geometry(f'{self.width}x{self.height}+{x}+{y}')
+            self.parent.geometry(f"{self.width}x{self.height}+{x}+{y}")
             self.parent.resizable(False, False)
             return x, y
         else:
             self.parent.geometry(
-                f'{self.width}x{self.height}+{self.x}+{self.y}',
+                f"{self.width}x{self.height}+{self.x}+{self.y}",
             )
             self.parent.resizable(False, False)
 

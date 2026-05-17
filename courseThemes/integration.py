@@ -27,9 +27,9 @@ class Integration(BaseIntegration, BaseWindow):
 
     def smart_round(self, val, ind):
         if val is None:
-            return '-'
+            return "-"
 
-        return str(val)[: str(val).find('.') + ind + 1]
+        return str(val)[: str(val).find(".") + ind + 1]
 
     def create_values_fields(self):
         values_frame = ctk.CTkFrame(
@@ -43,15 +43,15 @@ class Integration(BaseIntegration, BaseWindow):
 
         a_label = ctk.CTkLabel(
             values_frame,
-            text='a:',
-            font=('Arial', 15, 'bold'),
+            text="a:",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         a_label.place(relx=0.05, rely=0.1)
 
         self.a_field = ctk.CTkEntry(
             values_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=200,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -62,15 +62,15 @@ class Integration(BaseIntegration, BaseWindow):
 
         b_label = ctk.CTkLabel(
             values_frame,
-            text='b:',
-            font=('Arial', 15, 'bold'),
+            text="b:",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         b_label.place(relx=0.05, rely=0.4)
 
         self.b_field = ctk.CTkEntry(
             values_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=200,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -81,15 +81,15 @@ class Integration(BaseIntegration, BaseWindow):
 
         n_label = ctk.CTkLabel(
             values_frame,
-            text='n:',
-            font=('Arial', 15, 'bold'),
+            text="n:",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         n_label.place(relx=0.05, rely=0.7)
 
         self.n_field = ctk.CTkEntry(
             values_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=200,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -110,15 +110,15 @@ class Integration(BaseIntegration, BaseWindow):
 
         leftrect_label = ctk.CTkLabel(
             methods_frame,
-            text='Левые прям-ки:',
-            font=('Arial', 15, 'bold'),
+            text="Левые прям-ки:",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         leftrect_label.place(relx=0.05, rely=0.05)
 
         self.leftrect_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=200,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -129,15 +129,15 @@ class Integration(BaseIntegration, BaseWindow):
 
         rightrect_label = ctk.CTkLabel(
             methods_frame,
-            text='Правые прям-ки:',
-            font=('Arial', 15, 'bold'),
+            text="Правые прям-ки:",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         rightrect_label.place(relx=0.05, rely=0.25)
 
         self.rightrect_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=200,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -148,15 +148,15 @@ class Integration(BaseIntegration, BaseWindow):
 
         trap_label = ctk.CTkLabel(
             methods_frame,
-            text='Трапеция:',
-            font=('Arial', 15, 'bold'),
+            text="Трапеция:",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         trap_label.place(relx=0.05, rely=0.45)
 
         self.trap_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=200,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -167,15 +167,15 @@ class Integration(BaseIntegration, BaseWindow):
 
         simp_label = ctk.CTkLabel(
             methods_frame,
-            text='Симпсона:',
-            font=('Arial', 15, 'bold'),
+            text="Симпсона:",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         simp_label.place(relx=0.05, rely=0.65)
 
         self.simp_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=200,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -186,15 +186,15 @@ class Integration(BaseIntegration, BaseWindow):
 
         nmin_label = ctk.CTkLabel(
             methods_frame,
-            text='Минимальное n:',
-            font=('Arial', 15, 'bold'),
+            text="Минимальное n:",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         nmin_label.place(relx=0.05, rely=0.85)
 
         self.nmin_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=200,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -203,11 +203,11 @@ class Integration(BaseIntegration, BaseWindow):
         )
         self.nmin_field.place(relx=0.45, rely=0.85)
 
-        self.leftrect_field.configure(state='readonly')
-        self.rightrect_field.configure(state='readonly')
-        self.trap_field.configure(state='readonly')
-        self.simp_field.configure(state='readonly')
-        self.nmin_field.configure(state='readonly')
+        self.leftrect_field.configure(state="readonly")
+        self.rightrect_field.configure(state="readonly")
+        self.trap_field.configure(state="readonly")
+        self.simp_field.configure(state="readonly")
+        self.nmin_field.configure(state="readonly")
 
         self.methods_fields = [
             (self.leftrect_field, self.rectl),
@@ -227,20 +227,20 @@ class Integration(BaseIntegration, BaseWindow):
         self.ax.set_title(
             f'График {"первой" if not function_choice else "второй"} функции',
         )
-        self.ax.set_xlabel('x')
-        self.ax.set_ylabel('y')
+        self.ax.set_xlabel("x")
+        self.ax.set_ylabel("y")
         self.ax.grid(True)
 
         self.canvas.draw()
 
         additional_fields = self.methods_fields + [
-            (self.simp_field, ''),
-            (self.nmin_field, ''),
+            (self.simp_field, ""),
+            (self.nmin_field, ""),
         ]
         for field, _ in additional_fields:
-            field.configure(state='normal')
+            field.configure(state="normal")
             field.delete(0, tk.END)
-            field.configure(state='readonly')
+            field.configure(state="readonly")
 
         return
 
@@ -257,7 +257,7 @@ class Integration(BaseIntegration, BaseWindow):
         self.radio_var = tk.IntVar(value=0)
         first_integral_button = ctk.CTkRadioButton(
             integral_frame,
-            text='',
+            text="",
             variable=self.radio_var,
             value=0,
             command=self.clear_and_update_fields,
@@ -266,7 +266,7 @@ class Integration(BaseIntegration, BaseWindow):
         )
         second_integral_button = ctk.CTkRadioButton(
             integral_frame,
-            text='',
+            text="",
             variable=self.radio_var,
             value=1,
             command=self.clear_and_update_fields,
@@ -277,8 +277,8 @@ class Integration(BaseIntegration, BaseWindow):
         first_integral_button.place(relx=0.05, rely=0.25)
         second_integral_button.place(relx=0.05, rely=0.65)
 
-        canvas1 = tk.Canvas(integral_frame, height=100, width=210, bg='white')
-        canvas2 = tk.Canvas(integral_frame, height=100, width=210, bg='white')
+        canvas1 = tk.Canvas(integral_frame, height=100, width=210, bg="white")
+        canvas2 = tk.Canvas(integral_frame, height=100, width=210, bg="white")
 
         canvas1.place(relx=0.25, rely=0.05)
         canvas2.place(relx=0.25, rely=0.5)
@@ -310,7 +310,7 @@ class Integration(BaseIntegration, BaseWindow):
 
         solve_btn = ctk.CTkButton(
             buttons_frame,
-            text='Решить интеграл',
+            text="Решить интеграл",
             corner_radius=15,
             width=BTN_WIDTH,
             height=BTN_HEIGHT,
@@ -323,7 +323,7 @@ class Integration(BaseIntegration, BaseWindow):
 
         nm_solve_btn = ctk.CTkButton(
             buttons_frame,
-            text='Найти минимальное n',
+            text="Найти минимальное n",
             corner_radius=15,
             width=BTN_WIDTH,
             height=BTN_HEIGHT,
@@ -336,7 +336,7 @@ class Integration(BaseIntegration, BaseWindow):
 
         runge_solve_btn = ctk.CTkButton(
             buttons_frame,
-            text='Правило Рунге',
+            text="Правило Рунге",
             corner_radius=15,
             width=BTN_WIDTH,
             height=BTN_HEIGHT,
@@ -349,7 +349,7 @@ class Integration(BaseIntegration, BaseWindow):
 
         graphic_btn = ctk.CTkButton(
             buttons_frame,
-            text='Построить график выбранной функции',
+            text="Построить график выбранной функции",
             corner_radius=15,
             width=BTN_WIDTH,
             height=BTN_HEIGHT,
@@ -362,11 +362,11 @@ class Integration(BaseIntegration, BaseWindow):
 
         back_to_menu_btn = ctk.CTkButton(
             buttons_frame,
-            text='Вернуться в меню<',
+            text="Вернуться в меню<",
             corner_radius=15,
             width=BTN_WIDTH,
             height=BTN_HEIGHT,
-            command=lambda func=self.create_new_window: func('Меню'),
+            command=lambda func=self.create_new_window: func("Меню"),
             fg_color=config.BUTTON_COLOR,
             text_color=config.TEXT_COLOR_IN_BTN,
             hover_color=config.HOVER_BUTTON_COLOR,
@@ -374,7 +374,7 @@ class Integration(BaseIntegration, BaseWindow):
         back_to_menu_btn.place(relx=0.03, rely=0.8)
 
     def show_error(self, text):
-        tkm.showerror('Ошибка', message=text)
+        tkm.showerror("Ошибка", message=text)
 
     def solve_n_min(self):
         self.clear_and_update_fields()
@@ -399,38 +399,28 @@ class Integration(BaseIntegration, BaseWindow):
                 self.parent.after(
                     0,
                     lambda: self.show_error(
-                        'Нижний предел не может быть'
-                        ' больше верхнего или равен ему!',
+                        "Нижний предел не может быть" " больше верхнего или равен ему!",
                     ),
                 )
                 self.parent.after(0, self._hide_loading)
                 return
 
-            func = (
-                self.integral_func_two
-                if function_choice
-                else self.integral_func_one
-            )
+            func = self.integral_func_two if function_choice else self.integral_func_one
             left_pointer = 0
             right_pointer = 5000
             n_min = None
 
             iteration = 0
-            while (
-                left_pointer <= right_pointer
-                and not self.loading_dialog.cancel_flag
-            ):
+            while left_pointer <= right_pointer and not self.loading_dialog.cancel_flag:
                 mid_pointer = (left_pointer + right_pointer) // 2
-                mid_pointer = (
-                    mid_pointer + 1 if mid_pointer % 2 != 0 else mid_pointer
-                )
+                mid_pointer = mid_pointer + 1 if mid_pointer % 2 != 0 else mid_pointer
 
                 iteration += 1
                 if iteration % 10 == 0:
                     self.parent.after(
                         0,
                         lambda mp=mid_pointer: self._update_loading_message(
-                            f'Вычисление... Текущее n = {mp}',
+                            f"Вычисление... Текущее n = {mp}",
                         ),
                     )
 
@@ -468,7 +458,7 @@ class Integration(BaseIntegration, BaseWindow):
             self.parent.after(
                 0,
                 lambda msg=error_msg: self.show_error(
-                    f'Ошибка при вычислении: {msg}',
+                    f"Ошибка при вычислении: {msg}",
                 ),
             )
         finally:
@@ -479,13 +469,13 @@ class Integration(BaseIntegration, BaseWindow):
             self.loading_dialog.update_message(message)
 
     def _update_nmin_field(self, n_min):
-        self.nmin_field.configure(state='normal')
+        self.nmin_field.configure(state="normal")
         self.nmin_field.delete(0, tk.END)
         self.nmin_field.insert(
             0,
-            str(n_min if n_min is not None else 'Не найдено'),
+            str(n_min if n_min is not None else "Не найдено"),
         )
-        self.nmin_field.configure(state='readonly')
+        self.nmin_field.configure(state="readonly")
 
     def _hide_loading(self):
         if self.loading_dialog:
@@ -503,13 +493,12 @@ class Integration(BaseIntegration, BaseWindow):
             if not function_choice:
                 if 3 * val**2 - 2.5 <= 0:
                     self.show_error(
-                        'Некорректно введен диапазон '
-                        '(x ∈ (-∞; -0,91) ∪ (0,91; +∞))',
+                        "Некорректно введен диапазон " "(x ∈ (-∞; -0,91) ∪ (0,91; +∞))",
                     )
                     return None
             else:
                 if 2 * val - 2.6 < 0:
-                    self.show_error('Некорректно введен диапазон (x ≥ 1,3)')
+                    self.show_error("Некорректно введен диапазон (x ≥ 1,3)")
                     return None
 
         return True
@@ -521,11 +510,11 @@ class Integration(BaseIntegration, BaseWindow):
             raise ValueError
 
         if n == 0:
-            self.show_error('Число разбиений не может быть равно 0!')
+            self.show_error("Число разбиений не может быть равно 0!")
             raise ValueError
         elif a >= b:
             self.show_error(
-                'Нижний предел не может быть больше верхнего или равен ему!',
+                "Нижний предел не может быть больше верхнего или равен ему!",
             )
             raise ValueError
 
@@ -550,27 +539,27 @@ class Integration(BaseIntegration, BaseWindow):
             func_values = self.integral_func_two(x)
 
         for field in self.methods_fields:
-            field[0].configure(state='normal')
+            field[0].configure(state="normal")
             field[0].delete(0, tk.END)
             field[0].insert(
                 0,
                 str(self.smart_round(field[1](func_values, step), 5)),
             )
-            field[0].configure(state='readonly')
+            field[0].configure(state="readonly")
 
         if n % 2 != 0:
-            self.simp_field.configure(state='normal')
+            self.simp_field.configure(state="normal")
             self.simp_field.delete(0, tk.END)
-            self.simp_field.insert(0, '-')
-            self.simp_field.configure(state='readonly')
+            self.simp_field.insert(0, "-")
+            self.simp_field.configure(state="readonly")
         else:
-            self.simp_field.configure(state='normal')
+            self.simp_field.configure(state="normal")
             self.simp_field.delete(0, tk.END)
             self.simp_field.insert(
                 0,
                 str(self.smart_round(self.simp(func_values, step), 5)),
             )
-            self.simp_field.configure(state='readonly')
+            self.simp_field.configure(state="readonly")
 
     def show_graphic(self):
         function_choice = self.radio_var.get()
@@ -579,8 +568,8 @@ class Integration(BaseIntegration, BaseWindow):
         self.ax.set_title(
             f'График {"первой" if not function_choice else "второй"} функции',
         )
-        self.ax.set_xlabel('x')
-        self.ax.set_ylabel('y')
+        self.ax.set_xlabel("x")
+        self.ax.set_ylabel("y")
         self.ax.grid(True)
 
         self.canvas = FigureCanvasTkAgg(self.figure, master=self.parent)
@@ -608,7 +597,7 @@ class Integration(BaseIntegration, BaseWindow):
             if not function_choice
             else self.integral_func_two(x_ax)
         )
-        self.ax.plot(x_ax, func_vals, color='black')
+        self.ax.plot(x_ax, func_vals, color="black")
         self.canvas.draw()
 
     def runge(self):

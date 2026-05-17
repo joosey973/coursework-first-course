@@ -19,34 +19,34 @@ class RungeDialog(BaseIntegration):
         self.photos = []
 
         self.METHOD_ORDERS = {
-            'rectl': 1,
-            'rectr': 1,
-            'trap': 2,
-            'simp': 4,
+            "rectl": 1,
+            "rectr": 1,
+            "trap": 2,
+            "simp": 4,
         }
 
         self.METHOD_NAMES = {
-            'rectl': 'Левые прямоугольники',
-            'rectr': 'Правые прямоугольники',
-            'trap': 'Метод трапеций',
-            'simp': 'Метод Симпсона',
+            "rectl": "Левые прямоугольники",
+            "rectr": "Правые прямоугольники",
+            "trap": "Метод трапеций",
+            "simp": "Метод Симпсона",
         }
 
         self.METHOD_FIELDS = [
             (
-                'rectl',
-                'i_n_leftrect_field',
-                'i_2n_leftrect_field',
-                'n_leftrect_field',
+                "rectl",
+                "i_n_leftrect_field",
+                "i_2n_leftrect_field",
+                "n_leftrect_field",
             ),
             (
-                'rectr',
-                'i_n_rightrect_field',
-                'i_2n_rightrect_field',
-                'n_rightrect_field',
+                "rectr",
+                "i_n_rightrect_field",
+                "i_2n_rightrect_field",
+                "n_rightrect_field",
             ),
-            ('trap', 'i_n_trap_field', 'i_2n_trap_field', 'n_trap_field'),
-            ('simp', 'i_n_simp_field', 'i_2n_simp_field', 'n_simp_field'),
+            ("trap", "i_n_trap_field", "i_2n_trap_field", "n_trap_field"),
+            ("simp", "i_n_simp_field", "i_2n_simp_field", "n_simp_field"),
         ]
 
     def clear_result_fields(self):
@@ -54,13 +54,13 @@ class RungeDialog(BaseIntegration):
             for j in cort[1:]:
                 field = getattr(self, j)
                 field.configure(
-                    state='normal',
+                    state="normal",
                     fg_color=config.BACKGROUND_FIELD_COLOR,
                     text_color=config.TEXT_COLOR_IN_FRAME,
                     border_color=config.BORDER_COLOR,
                 )
                 field.delete(0, tk.END)
-                field.configure(state='readonly')
+                field.configure(state="readonly")
 
     def calculate_integral(self, method_name, a, b, n, func_choice):
         x = np.linspace(a, b, n + 1)
@@ -71,13 +71,13 @@ class RungeDialog(BaseIntegration):
         else:
             func_values = self.integral_func_two(x)
 
-        if method_name == 'rectl':
+        if method_name == "rectl":
             return self.rectl(func_values, step)
-        elif method_name == 'rectr':
+        elif method_name == "rectr":
             return self.rectr(func_values, step)
-        elif method_name == 'trap':
+        elif method_name == "trap":
             return self.trap(func_values, step)
-        elif method_name == 'simp':
+        elif method_name == "simp":
             if n % 2 != 0:
                 n += 1
                 x = np.linspace(a, b, n + 1)
@@ -90,7 +90,7 @@ class RungeDialog(BaseIntegration):
             result = self.simp(func_values, step)
             if result is None:
                 raise ValueError(
-                    'Метод Симпсона требует четного числа разбиений',
+                    "Метод Симпсона требует четного числа разбиений",
                 )
 
             return result
@@ -112,7 +112,7 @@ class RungeDialog(BaseIntegration):
         while iteration < max_iterations:
             x_check = np.linspace(a, b, current_n + 1)
             if self.check_odz_runge(x_check, func_choice) is None:
-                return None, None, None, None, float('inf')
+                return None, None, None, None, float("inf")
 
             i_n = self.calculate_integral(
                 method_name,
@@ -162,11 +162,11 @@ class RungeDialog(BaseIntegration):
         n = int(n)
 
         if n == 0:
-            self.show_error('Число разбиений не может быть равно 0!')
+            self.show_error("Число разбиений не может быть равно 0!")
             return
         elif a >= b:
             self.show_error(
-                'Нижний предел не может быть больше верхнего или равен ему!',
+                "Нижний предел не может быть больше верхнего или равен ему!",
             )
             return
 
@@ -206,35 +206,35 @@ class RungeDialog(BaseIntegration):
                     if i_n is None:
                         continue
 
-                    i_n_field.configure(state='normal')
+                    i_n_field.configure(state="normal")
                     i_n_field.delete(0, tk.END)
-                    i_n_field.insert(0, f'{i_n:.8f}')
-                    i_n_field.configure(state='readonly')
+                    i_n_field.insert(0, f"{i_n:.8f}")
+                    i_n_field.configure(state="readonly")
 
-                    i_2n_field.configure(state='normal')
+                    i_2n_field.configure(state="normal")
                     i_2n_field.delete(0, tk.END)
-                    i_2n_field.insert(0, f'{i_2n:.8f}')
+                    i_2n_field.insert(0, f"{i_2n:.8f}")
 
                     if error < eps:
-                        i_2n_field.configure(fg_color='green')
+                        i_2n_field.configure(fg_color="green")
                     else:
-                        i_2n_field.configure(fg_color='coral')
+                        i_2n_field.configure(fg_color="coral")
 
-                    i_2n_field.configure(state='readonly')
+                    i_2n_field.configure(state="readonly")
 
-                    n_field.configure(state='normal')
+                    n_field.configure(state="normal")
                     n_field.delete(0, tk.END)
                     n_field.insert(0, str(final_n))
-                    n_field.configure(state='readonly')
+                    n_field.configure(state="readonly")
 
                     results_summary.append(
                         {
-                            'method': self.METHOD_NAMES[method_name],
-                            'error': error,
-                            'final_n': final_n,
-                            'improved_value': improved_value,
-                            'i_2n': i_2n,
-                            'accuracy_achieved': error < eps,
+                            "method": self.METHOD_NAMES[method_name],
+                            "error": error,
+                            "final_n": final_n,
+                            "improved_value": improved_value,
+                            "i_2n": i_2n,
+                            "accuracy_achieved": error < eps,
                         },
                     )
 
@@ -244,81 +244,73 @@ class RungeDialog(BaseIntegration):
             self.show_results_summary(results_summary, eps)
 
         except Exception as e:
-            self.show_error(f'Ошибка при вычислении: {str(e)}')
+            self.show_error(f"Ошибка при вычислении: {str(e)}")
 
     def show_results_summary(self, results, eps):
         if not results:
-            self.show_info('Нет результатов для отображения')
+            self.show_info("Нет результатов для отображения")
             return
 
-        summary = 'Результаты применения правила Рунге:\n'
-        summary += '=' * 50 + '\n\n'
+        summary = "Результаты применения правила Рунге:\n"
+        summary += "=" * 50 + "\n\n"
 
         for result in results:
             summary += f"{result['method']}:\n"
 
-            if result['accuracy_achieved']:
-                summary += (
-                    f"  ✓ Точность достигнута при n = {result['final_n']}\n"
-                )
+            if result["accuracy_achieved"]:
+                summary += f"  ✓ Точность достигнута при n = {result['final_n']}\n"
                 summary += f"  ○ Погрешность: {result['error']:.2e}\n"
-                if result['improved_value'] is not None:
-                    summary += '  ○ Уточненное значение:'
+                if result["improved_value"] is not None:
+                    summary += "  ○ Уточненное значение:"
                     f" {result['improved_value']:.8f}\n"
             else:
-                summary += (
-                    f"  ✗ Точность НЕ достигнута при n = {result['final_n']}\n"
-                )
+                summary += f"  ✗ Точность НЕ достигнута при n = {result['final_n']}\n"
                 summary += f"  ○ Текущая погрешность: {result['error']:.2e}\n"
-                summary += f'  ○ Требуемая точность: {eps}\n'
+                summary += f"  ○ Требуемая точность: {eps}\n"
 
-            summary += '\n' + '-' * 30 + '\n\n'
+            summary += "\n" + "-" * 30 + "\n\n"
 
-        tkm.showinfo('Результаты правила Рунге', summary)
+        tkm.showinfo("Результаты правила Рунге", summary)
 
     def check_odz_runge(self, x, function_choice):
         for val in x:
             if not function_choice:  # Первая функция
                 if 3 * val**2 - 2.5 <= 0:
                     self.show_error(
-                        'Некорректно введен диапазон '
-                        '(x ∈ (-∞; -√30/6) ∪ (√30/6; +∞))',
+                        "Некорректно введен диапазон "
+                        "(x ∈ (-∞; -√30/6) ∪ (√30/6; +∞))",
                     )
                     return None
             else:  # Вторая функция
                 if 2 * val - 2.6 < 0:
-                    self.show_error('Некорректно введен диапазон (x ≥ 1,3)')
+                    self.show_error("Некорректно введен диапазон (x ≥ 1,3)")
                     return None
 
                 denominator = 1.8 + np.sqrt(2 * val - 2.6)
                 if abs(denominator) < 1e-10:
-                    self.show_error('Знаменатель обращается в ноль!')
+                    self.show_error("Знаменатель обращается в ноль!")
                     return None
 
         return True
 
     def runge_window_setup(self):
         self.runge_dialog = tk.Toplevel(self.parent)
-        self.runge_dialog.title('Правило Рунге')
-        self.runge_dialog.geometry(f'{self.width}x{self.height}')
+        self.runge_dialog.title("Правило Рунге")
+        self.runge_dialog.geometry(f"{self.width}x{self.height}")
         self.runge_dialog.transient(self.parent)
         self.runge_dialog.grab_set()
         self.runge_dialog.resizable(False, False)
         self.runge_dialog.configure(bg=config.BACKGROUNG_COLOR)
         self.runge_dialog.update_idletasks()
-        x = (
-            self.parent.winfo_x()
-            + (self.parent.winfo_width() // 2)
-            - (self.width // 2)
-        )
+        x = self.parent.winfo_x() + (self.parent.winfo_width() // 2) - (self.width // 2)
         y = (
             self.parent.winfo_y()
             + (self.parent.winfo_height() // 2)
             - (self.height // 2)
         )
-        self.runge_dialog.geometry(f'+{x}+{y}')
+        self.runge_dialog.geometry(f"+{x}+{y}")
 
-        self.runge_dialog.protocol('WM_DELETE_WINDOW', lambda: None)
+        self.runge_dialog.protocol("WM_DELETE_WINDOW", lambda: None)
 
     def create_insert_fields(self):
         insert_frame = ctk.CTkFrame(
@@ -332,15 +324,15 @@ class RungeDialog(BaseIntegration):
 
         a_label = ctk.CTkLabel(
             insert_frame,
-            text='a:',
-            font=('Arial', 15, 'bold'),
+            text="a:",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         a_label.place(relx=0.05, rely=0.1)
 
         self.a_field = ctk.CTkEntry(
             insert_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=200,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -351,15 +343,15 @@ class RungeDialog(BaseIntegration):
 
         b_label = ctk.CTkLabel(
             insert_frame,
-            text='b:',
-            font=('Arial', 15, 'bold'),
+            text="b:",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         b_label.place(relx=0.05, rely=0.32)
 
         self.b_field = ctk.CTkEntry(
             insert_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=200,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -370,15 +362,15 @@ class RungeDialog(BaseIntegration):
 
         n_label = ctk.CTkLabel(
             insert_frame,
-            text='n:',
-            font=('Arial', 15, 'bold'),
+            text="n:",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         n_label.place(relx=0.05, rely=0.52)
 
         self.n_field = ctk.CTkEntry(
             insert_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=200,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -389,15 +381,15 @@ class RungeDialog(BaseIntegration):
 
         eps_label = ctk.CTkLabel(
             insert_frame,
-            text='ε (точность):',
-            font=('Arial', 15, 'bold'),
+            text="ε (точность):",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         eps_label.place(relx=0.05, rely=0.75)
 
         self.eps_field = ctk.CTkEntry(
             insert_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=200,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -419,7 +411,7 @@ class RungeDialog(BaseIntegration):
         self.radio_var = tk.IntVar(value=0)
         first_integral_button = ctk.CTkRadioButton(
             integral_frame,
-            text='',
+            text="",
             variable=self.radio_var,
             value=0,
             command=self.clear_result_fields,
@@ -428,7 +420,7 @@ class RungeDialog(BaseIntegration):
         )
         second_integral_button = ctk.CTkRadioButton(
             integral_frame,
-            text='',
+            text="",
             variable=self.radio_var,
             value=1,
             command=self.clear_result_fields,
@@ -439,8 +431,8 @@ class RungeDialog(BaseIntegration):
         first_integral_button.place(relx=0.05, rely=0.25)
         second_integral_button.place(relx=0.05, rely=0.65)
 
-        canvas1 = tk.Canvas(integral_frame, height=100, width=210, bg='white')
-        canvas2 = tk.Canvas(integral_frame, height=100, width=210, bg='white')
+        canvas1 = tk.Canvas(integral_frame, height=100, width=210, bg="white")
+        canvas2 = tk.Canvas(integral_frame, height=100, width=210, bg="white")
 
         canvas1.place(relx=0.25, rely=0.05)
         canvas2.place(relx=0.25, rely=0.5)
@@ -469,63 +461,63 @@ class RungeDialog(BaseIntegration):
 
         leftrect_label = ctk.CTkLabel(
             methods_frame,
-            text='Левые прям-ки:',
-            font=('Arial', 15, 'bold'),
+            text="Левые прям-ки:",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         leftrect_label.place(relx=0.05, rely=0.2)
 
         rightrect_label = ctk.CTkLabel(
             methods_frame,
-            text='Правые прям-ки:',
-            font=('Arial', 15, 'bold'),
+            text="Правые прям-ки:",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         rightrect_label.place(relx=0.05, rely=0.4)
 
         trap_label = ctk.CTkLabel(
             methods_frame,
-            text='Трапеция:',
-            font=('Arial', 15, 'bold'),
+            text="Трапеция:",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         trap_label.place(relx=0.05, rely=0.6)
 
         simp_label = ctk.CTkLabel(
             methods_frame,
-            text='Симпсона:',
-            font=('Arial', 15, 'bold'),
+            text="Симпсона:",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         simp_label.place(relx=0.05, rely=0.8)
 
         in_label = ctk.CTkLabel(
             methods_frame,
-            text='I(n)',
-            font=('Arial', 15, 'bold'),
+            text="I(n)",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         in_label.place(relx=0.35, rely=0.05)
 
         i2n_label = ctk.CTkLabel(
             methods_frame,
-            text='I(2n)',
-            font=('Arial', 15, 'bold'),
+            text="I(2n)",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         i2n_label.place(relx=0.55, rely=0.05)
 
         n_label = ctk.CTkLabel(
             methods_frame,
-            text='n',
-            font=('Arial', 15, 'bold'),
+            text="n",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         n_label.place(relx=0.78, rely=0.05)
 
         self.i_n_leftrect_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=100,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -536,7 +528,7 @@ class RungeDialog(BaseIntegration):
 
         self.i_2n_leftrect_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=100,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -547,7 +539,7 @@ class RungeDialog(BaseIntegration):
 
         self.n_leftrect_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=100,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -558,7 +550,7 @@ class RungeDialog(BaseIntegration):
 
         self.i_n_rightrect_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=100,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -569,7 +561,7 @@ class RungeDialog(BaseIntegration):
 
         self.i_2n_rightrect_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=100,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -580,7 +572,7 @@ class RungeDialog(BaseIntegration):
 
         self.n_rightrect_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=100,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -591,7 +583,7 @@ class RungeDialog(BaseIntegration):
 
         self.i_n_trap_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=100,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -602,7 +594,7 @@ class RungeDialog(BaseIntegration):
 
         self.i_2n_trap_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=100,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -613,7 +605,7 @@ class RungeDialog(BaseIntegration):
 
         self.n_trap_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=100,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -624,7 +616,7 @@ class RungeDialog(BaseIntegration):
 
         self.i_n_simp_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=100,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -635,7 +627,7 @@ class RungeDialog(BaseIntegration):
 
         self.i_2n_simp_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=100,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -646,7 +638,7 @@ class RungeDialog(BaseIntegration):
 
         self.n_simp_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             width=100,
             corner_radius=10,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -671,12 +663,12 @@ class RungeDialog(BaseIntegration):
         ]
 
         for field in readonly_fields:
-            field.configure(state='readonly')
+            field.configure(state="readonly")
 
     def create_buttons(self):
         solve_btn = ctk.CTkButton(
             self.runge_dialog,
-            text='Применить правило Рунге',
+            text="Применить правило Рунге",
             height=30,
             width=200,
             corner_radius=15,
@@ -689,7 +681,7 @@ class RungeDialog(BaseIntegration):
 
         return_btn = ctk.CTkButton(
             self.runge_dialog,
-            text='Вернуться',
+            text="Вернуться",
             height=30,
             width=150,
             corner_radius=15,
@@ -717,7 +709,7 @@ class RungeDialog(BaseIntegration):
         self.create_buttons()
 
     def show_error(self, text):
-        tkm.showerror('Ошибка', message=text)
+        tkm.showerror("Ошибка", message=text)
 
     def show_info(self, message):
-        tkm.showinfo('Информация', message)
+        tkm.showinfo("Информация", message)

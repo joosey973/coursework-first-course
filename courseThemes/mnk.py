@@ -89,17 +89,17 @@ class MNK(BaseMNK, BaseWindow):
     def create_buttons(self):
         menu_btn = ctk.CTkButton(
             self,
-            text='Вернуться в меню<',
+            text="Вернуться в меню<",
             width=300,
             corner_radius=15,
-            command=lambda: self.create_new_window('Меню'),
+            command=lambda: self.create_new_window("Меню"),
             fg_color=config.BUTTON_COLOR,
             text_color=config.TEXT_COLOR_IN_BTN,
             hover_color=config.HOVER_BUTTON_COLOR,
         )
         insert_base_dots = ctk.CTkButton(
             self,
-            text='Вставить базовые значения в таблицу',
+            text="Вставить базовые значения в таблицу",
             width=300,
             corner_radius=15,
             command=self.insert_base_dots,
@@ -109,7 +109,7 @@ class MNK(BaseMNK, BaseWindow):
         )
         to_pro_btn = ctk.CTkButton(
             self,
-            text='Перейти в Pro mode',
+            text="Перейти в Pro mode",
             width=300,
             corner_radius=15,
             command=self.to_pro_mode,
@@ -127,28 +127,28 @@ class MNK(BaseMNK, BaseWindow):
             self,
             self.width - 150,
             self.height,
-            'Аппроксимация Pro',
+            "Аппроксимация Pro",
         )
         self.wait_window(pro_mode_topLevel)
 
-    def get_function(self, coefs, function='polinomial'):
-        func = 'y(x) = '
-        if function == 'polinomial':
+    def get_function(self, coefs, function="polinomial"):
+        func = "y(x) = "
+        if function == "polinomial":
             terms = []
             for i in range(len(coefs) - 1, -1, -1):
                 coeff = round(coefs[len(coefs) - i - 1], 3)
                 if i == 0:
-                    terms.append(f'{coeff}')
+                    terms.append(f"{coeff}")
                 elif i == 1:
-                    terms.append(f'{coeff}*x')
+                    terms.append(f"{coeff}*x")
                 else:
-                    terms.append(f'{coeff}*x^{i}')
+                    terms.append(f"{coeff}*x^{i}")
 
-            func += ' + '.join(terms).replace(' + -', ' - ')
+            func += " + ".join(terms).replace(" + -", " - ")
         else:
-            func += f'{round(coefs[0], 3)}e^(-{round(coefs[1], 3)}x)'
+            func += f"{round(coefs[0], 3)}e^(-{round(coefs[1], 3)}x)"
 
-        func = func.replace('--', '').replace('+ -', '-')
+        func = func.replace("--", "").replace("+ -", "-")
         return func
 
     def update_functions_fields(self, coef1=None, coef2=None, coef3=None):
@@ -159,7 +159,7 @@ class MNK(BaseMNK, BaseWindow):
             f11 = [coef1[0] * x_val + coef1[1] for x_val, _ in self.x_y_list]
             func_arr.append(f1)
         else:
-            func_arr.append('-')
+            func_arr.append("-")
 
         if coef2 is not None:
             f2 = self.get_function(coef2)
@@ -169,18 +169,17 @@ class MNK(BaseMNK, BaseWindow):
             ]
             func_arr.append(f2)
         else:
-            func_arr.append('-')
+            func_arr.append("-")
             f22 = None
 
         if coef3 is not None:
-            f3 = self.get_function(coef3, 'exp')
+            f3 = self.get_function(coef3, "exp")
             f33 = [
-                coef3[0] * math.e ** (-coef3[1] * x_val)
-                for x_val, _ in self.x_y_list
+                coef3[0] * math.e ** (-coef3[1] * x_val) for x_val, _ in self.x_y_list
             ]
             func_arr.append(f3)
         else:
-            func_arr.append('-')
+            func_arr.append("-")
 
         field_arr = [
             self.linear_field,
@@ -191,10 +190,10 @@ class MNK(BaseMNK, BaseWindow):
         for i in range(len(field_arr)):
             field = field_arr[i]
             answer = func_arr[i]
-            field.configure(state='normal')
+            field.configure(state="normal")
             field.delete(0, ctk.END)
             field.insert(0, answer)
-            field.configure(state='readonly')
+            field.configure(state="readonly")
 
         deviation_values = []
         if coef1 is not None:
@@ -223,12 +222,12 @@ class MNK(BaseMNK, BaseWindow):
             if deviation_values[i] is not None:
                 answer = self.get_devitation(deviation_values[i])
             else:
-                answer = '-'
+                answer = "-"
 
-            field.configure(state='normal')
+            field.configure(state="normal")
             field.delete(0, ctk.END)
             field.insert(0, answer)
-            field.configure(state='readonly')
+            field.configure(state="readonly")
 
     def build_graphic(self, coef1=None, coef2=None, coef3=None):
         self.ax.clear()
@@ -245,8 +244,8 @@ class MNK(BaseMNK, BaseWindow):
                 x_dots,
                 y1,
                 linewidth=2,
-                label='Линейная регрессия',
-                color='green',
+                label="Линейная регрессия",
+                color="green",
             )
 
         if coef2 is not None:
@@ -258,29 +257,28 @@ class MNK(BaseMNK, BaseWindow):
                 x_dots,
                 y2,
                 linewidth=2,
-                label='Квадратичная регрессия',
-                color='red',
+                label="Квадратичная регрессия",
+                color="red",
             )
 
         if coef3 is not None:
             y3 = [
-                coef3[0] * math.e ** (-coef3[1] * x_val)
-                for x_val, _ in self.x_y_list
+                coef3[0] * math.e ** (-coef3[1] * x_val) for x_val, _ in self.x_y_list
             ]
             self.ax.plot(
                 x_dots,
                 y3,
                 linewidth=2,
-                label='Экспоненциальная регрессия',
-                color='black',
+                label="Экспоненциальная регрессия",
+                color="black",
             )
 
         self.ax.scatter(
             x_dots,
             y_dots,
-            label='Экспериментальные точки',
-            marker='o',
-            color='blue',
+            label="Экспериментальные точки",
+            marker="o",
+            color="blue",
         )
         self.ax.legend()
         self.canvas.draw()
@@ -290,20 +288,20 @@ class MNK(BaseMNK, BaseWindow):
         HEIGHT = 35
         linear_label = ctk.CTkLabel(
             self,
-            text='Линейная регрессия',
-            font=('Arial', 15, 'bold'),
+            text="Линейная регрессия",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         quadratic_label = ctk.CTkLabel(
             self,
-            text='Квадратичная регрессия',
-            font=('Arial', 15, 'bold'),
+            text="Квадратичная регрессия",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         exponential_label = ctk.CTkLabel(
             self,
-            text='Экспоненциальная регрессия',
-            font=('Arial', 15, 'bold'),
+            text="Экспоненциальная регрессия",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         self.linear_field = ctk.CTkEntry(
@@ -342,19 +340,19 @@ class MNK(BaseMNK, BaseWindow):
         self.quadratic_field.place(relx=0.3, rely=0.4)
         self.exponential_field.place(relx=0.3, rely=0.6)
 
-        self.linear_field.configure(state='readonly')
-        self.quadratic_field.configure(state='readonly')
-        self.exponential_field.configure(state='readonly')
+        self.linear_field.configure(state="readonly")
+        self.quadratic_field.configure(state="readonly")
+        self.exponential_field.configure(state="readonly")
 
     def create_deviations_fields(self):
         WIDTH = 100
         HEIGHT = 35
         sum_label = ctk.CTkLabel(
             self,
-            text='Сумма квадратов отколнений',
+            text="Сумма квадратов отколнений",
             wraplength=100,
             justify=tk.LEFT,
-            font=('Arial', 15, 'bold'),
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
 
@@ -391,9 +389,9 @@ class MNK(BaseMNK, BaseWindow):
         self.quadratic_devitation_field.place(relx=0.52, rely=0.4)
         self.exponential_devitation_field.place(relx=0.52, rely=0.6)
 
-        self.linear_devitation_field.configure(state='readonly')
-        self.quadratic_devitation_field.configure(state='readonly')
-        self.exponential_devitation_field.configure(state='readonly')
+        self.linear_devitation_field.configure(state="readonly")
+        self.quadratic_devitation_field.configure(state="readonly")
+        self.exponential_devitation_field.configure(state="readonly")
 
     def clear_main_fields(self):
         functions_arr = [
@@ -409,12 +407,12 @@ class MNK(BaseMNK, BaseWindow):
         for i in range(len(dev_arr)):
             field_1 = functions_arr[i]
             field_2 = dev_arr[i]
-            field_1.configure(state='normal')
+            field_1.configure(state="normal")
             field_1.delete(0, ctk.END)
-            field_1.configure(state='readonly')
-            field_2.configure(state='normal')
+            field_1.configure(state="readonly")
+            field_2.configure(state="normal")
             field_2.delete(0, ctk.END)
-            field_2.configure(state='readonly')
+            field_2.configure(state="readonly")
 
     def initUI(self):
         self.create_adding_values()

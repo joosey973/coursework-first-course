@@ -1,6 +1,6 @@
 # Курсовая работа
 
-![CI](https://github.com/joosey973/gents-telegram-bot/actions/workflows/lint.yml/badge.svg)
+![CI](https://github.com/joosey973/coursework-first-course/actions/workflows/lint.yml/badge.svg)
 
 ## Как запустить проект в dev-режиме
 

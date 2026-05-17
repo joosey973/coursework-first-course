@@ -84,15 +84,15 @@ class Polinom(BaseWindow):
         self.values_listbox.place(relx=0.05, rely=0.1)
         x_label = ctk.CTkLabel(
             self,
-            text='x',
-            font=('Arial', 15, 'bold'),
+            text="x",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         x_label.place(relx=0.1, rely=0.03)
         y_label = ctk.CTkLabel(
             self,
-            text='y',
-            font=('Arial', 15, 'bold'),
+            text="y",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         y_label.place(relx=0.25, rely=0.03)
@@ -100,8 +100,8 @@ class Polinom(BaseWindow):
     def create_adding_values(self):
         x_label = ctk.CTkLabel(
             self,
-            text='x',
-            font=('Arial', 15, 'bold'),
+            text="x",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         self.x_field = ctk.CTkEntry(
@@ -117,8 +117,8 @@ class Polinom(BaseWindow):
         x_label.place(relx=0.094, rely=0.64)
         y_label = ctk.CTkLabel(
             self,
-            text='y',
-            font=('Arial', 15, 'bold'),
+            text="y",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         self.y_field = ctk.CTkEntry(
@@ -134,7 +134,7 @@ class Polinom(BaseWindow):
         y_label.place(relx=0.264, rely=0.64)
         add_btn = ctk.CTkButton(
             self,
-            text='Добавить значения',
+            text="Добавить значения",
             width=150,
             corner_radius=15,
             command=self.add_values,
@@ -145,7 +145,7 @@ class Polinom(BaseWindow):
         add_btn.place(relx=0.115, rely=0.82)
         remove_btn = ctk.CTkButton(
             self,
-            text='Удалить значения',
+            text="Удалить значения",
             width=150,
             corner_radius=15,
             command=self.remove_values,
@@ -158,8 +158,8 @@ class Polinom(BaseWindow):
     def point_equation(self):
         point_label = ctk.CTkLabel(
             self,
-            text='x0',
-            font=('Arial', 15, 'bold'),
+            text="x0",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         self.point_field = ctk.CTkEntry(
@@ -175,7 +175,7 @@ class Polinom(BaseWindow):
         point_label.place(relx=0.49, rely=0.64)
         solve_btn = ctk.CTkButton(
             self,
-            text='Посчитать полином в точке',
+            text="Посчитать полином в точке",
             width=150,
             corner_radius=15,
             command=self.solve_polinom,
@@ -186,18 +186,18 @@ class Polinom(BaseWindow):
         solve_btn.place(relx=0.395, rely=0.82)
         menu_btn = ctk.CTkButton(
             self,
-            text='Вернуться в меню<',
+            text="Вернуться в меню<",
             corner_radius=15,
             width=150,
-            command=lambda: self.create_new_window('Меню'),
+            command=lambda: self.create_new_window("Меню"),
             fg_color=config.BUTTON_COLOR,
             text_color=config.TEXT_COLOR_IN_BTN,
             hover_color=config.HOVER_BUTTON_COLOR,
         )
         menu_btn.place(relx=0.72, rely=0.82)
 
-    def kanon_in_dot(self, x, y, x_dot, pol_type='kanon'):
-        if pol_type == 'kanon':
+    def kanon_in_dot(self, x, y, x_dot, pol_type="kanon"):
+        if pol_type == "kanon":
             kanon_coef = self.kanon_polinom(x, y)
         else:
             kanon_coef = self.kramer_polinom(x, y)
@@ -211,13 +211,13 @@ class Polinom(BaseWindow):
     def solve_polinom(self):
         if len(self.x_y_list) == 1:
             self.show_popup(
-                'Нельзя посчитать значения в точке, тк не построен полином!',
+                "Нельзя посчитать значения в точке, тк не построен полином!",
             )
             return
 
-        x_dot = self.point_field.get().replace(',', '.')
+        x_dot = self.point_field.get().replace(",", ".")
         if not self.check_is_number(x_dot):
-            self.show_popup('x_dot не число!')
+            self.show_popup("x_dot не число!")
             return
 
         if not self.x_y_list:
@@ -232,22 +232,22 @@ class Polinom(BaseWindow):
         y = [i[1] for i in self.x_y_list]
         x_dot = float(x_dot)
         kanon_res_matr = self.kanon_in_dot(x, y, x_dot)
-        kanon_res_kram = self.kanon_in_dot(x, y, x_dot, 'krammer')
+        kanon_res_kram = self.kanon_in_dot(x, y, x_dot, "krammer")
         lagrange_res = self.lagrange_polinom(x, y, x_dot)
         newton_res = self.newton_polinom(x, y, x_dot)
-        newton_res = '-' if newton_res is None else newton_res
+        newton_res = "-" if newton_res is None else newton_res
         results = [kanon_res_matr, kanon_res_kram, lagrange_res, newton_res]
         keys = list(self.polinoms_fields.keys())
         for i in range(len(results)):
-            keys[i].configure(state='normal')
+            keys[i].configure(state="normal")
             keys[i].delete(0, ctk.END)
             keys[i].insert(0, str(results[i]))
-            keys[i].configure(state='readonly')
+            keys[i].configure(state="readonly")
 
     def remove_values(self):
         selected_values = self.values_listbox.curselection()
         if not selected_values:
-            self.show_popup('Не выбраны значения для удаления', 'info')
+            self.show_popup("Не выбраны значения для удаления", "info")
             return
 
         selected_values = selected_values[0]
@@ -257,20 +257,20 @@ class Polinom(BaseWindow):
         self.update_polinom_field()
 
     def add_values(self):
-        x = self.x_field.get().replace(',', '.')
-        y = self.y_field.get().replace(',', '.')
+        x = self.x_field.get().replace(",", ".")
+        y = self.y_field.get().replace(",", ".")
         if not self.check_is_number(x):
-            self.show_popup('x не число!')
+            self.show_popup("x не число!")
             return
 
         if not self.check_is_number(y):
-            self.show_popup('y не число!')
+            self.show_popup("y не число!")
             return
 
         x, y = float(x), float(y)
         is_warned = False
         if x in [i[0] for i in self.x_y_list]:
-            self.show_popup('Такая точка x уже добавлена в список!', 'info')
+            self.show_popup("Такая точка x уже добавлена в список!", "info")
             is_warned = True
 
         if not is_warned:
@@ -291,7 +291,7 @@ class Polinom(BaseWindow):
         formatted_list = []
         for x, y in self.x_y_list:
             formatted_list.append(
-                '\t' + 5 * ' ' + f'{x:<15}' + '\t' * 4 + f'{y:<15}',
+                "\t" + 5 * " " + f"{x:<15}" + "\t" * 4 + f"{y:<15}",
             )
 
         return formatted_list
@@ -306,29 +306,29 @@ class Polinom(BaseWindow):
             text_color=config.TEXT_COLOR_IN_FRAME,
             border_color=config.BORDER_COLOR,
         )
-        self.polinom_formule_field.configure(state='readonly')
+        self.polinom_formule_field.configure(state="readonly")
         self.polinom_formule_field.place(relx=0.65, rely=0.7)
         polinom_formule_label = ctk.CTkLabel(
             self,
-            text='Формула полинома',
-            font=('Arial', 15, 'bold'),
+            text="Формула полинома",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         polinom_formule_label.place(relx=0.725, rely=0.64)
 
     def clear_fields(self, warned=False):
-        self.polinom_formule_field.configure(state='normal')
+        self.polinom_formule_field.configure(state="normal")
         self.polinom_formule_field.delete(0, ctk.END)
-        self.polinom_formule_field.configure(state='readonly')
+        self.polinom_formule_field.configure(state="readonly")
 
         self.ax.clear()
         self.ax.grid(True, alpha=0.3)
         self.canvas.draw()
         if not warned:
             for field in self.polinoms_fields.keys():
-                field.configure(state='normal')
+                field.configure(state="normal")
                 field.delete(0, ctk.END)
-                field.configure(state='readonly')
+                field.configure(state="readonly")
 
         self.update_polinom_field()
         self.update_listbox()
@@ -342,23 +342,23 @@ class Polinom(BaseWindow):
             for i in range(len(x) - 1, -1, -1):
                 coeff = round(self.kanon_res[i], 3)
                 if i == 0:
-                    terms.append(f'{coeff}')
+                    terms.append(f"{coeff}")
                 elif i == 1:
-                    terms.append(f'{coeff}*x')
+                    terms.append(f"{coeff}*x")
                 else:
-                    terms.append(f'{coeff}*x^{i}')
+                    terms.append(f"{coeff}*x^{i}")
 
-            polinom = f'P{len(self.kanon_res) - 1}(x)=' + ' + '.join(
+            polinom = f"P{len(self.kanon_res) - 1}(x)=" + " + ".join(
                 terms,
-            ).replace(' + -', ' - ')
+            ).replace(" + -", " - ")
         else:
-            polinom = ''
+            polinom = ""
 
         self.adjust_font_size(polinom)
-        self.polinom_formule_field.configure(state='normal')
+        self.polinom_formule_field.configure(state="normal")
         self.polinom_formule_field.delete(0, ctk.END)
         self.polinom_formule_field.insert(0, polinom)
-        self.polinom_formule_field.configure(state='readonly')
+        self.polinom_formule_field.configure(state="readonly")
         self.update_function()
         self.update_idletasks()
 
@@ -368,7 +368,7 @@ class Polinom(BaseWindow):
         max_width = 275
         font_size = 15
 
-        test_font = tkfont.Font(family='Arial', size=font_size)
+        test_font = tkfont.Font(family="Arial", size=font_size)
         text_width = test_font.measure(text)
 
         while text_width > max_width and font_size > 8:
@@ -376,7 +376,7 @@ class Polinom(BaseWindow):
             test_font.configure(size=font_size)
             text_width = test_font.measure(text)
 
-        self.polinom_formule_field.configure(font=('Arial', font_size))
+        self.polinom_formule_field.configure(font=("Arial", font_size))
 
     def update_function(self):
         import numpy as np
@@ -399,16 +399,16 @@ class Polinom(BaseWindow):
             self.ax.plot(
                 x,
                 y,
-                'b-',
+                "b-",
                 linewidth=2,
-                label='Интерполяционный полином',
+                label="Интерполяционный полином",
             )
             self.ax.scatter(
                 x_dots,
                 y_dots,
-                label='Узлы интерполяции',
-                marker='o',
-                color='red',
+                label="Узлы интерполяции",
+                marker="o",
+                color="red",
             )
             self.ax.legend()
             self.canvas.draw()
@@ -459,32 +459,32 @@ class Polinom(BaseWindow):
             self.polinoms_fields = {
                 self.kanon_field_matr: ctk.CTkLabel(
                     self,
-                    text='Канонический полином (Матричный)',
-                    font=('Arial', 15, 'bold'),
+                    text="Канонический полином (Матричный)",
+                    font=("Arial", 15, "bold"),
                     wraplength=100,
                     justify=tk.LEFT,
                     text_color=config.TEXT_COLOR_IN_FRAME,
                 ),
                 self.kanon_field_kram: ctk.CTkLabel(
                     self,
-                    text='Канонический полином (Краммер)',
-                    font=('Arial', 15, 'bold'),
+                    text="Канонический полином (Краммер)",
+                    font=("Arial", 15, "bold"),
                     wraplength=100,
                     justify=tk.LEFT,
                     text_color=config.TEXT_COLOR_IN_FRAME,
                 ),
                 self.lagrange_field: ctk.CTkLabel(
                     self,
-                    text='Полином Лагранжа',
-                    font=('Arial', 15, 'bold'),
+                    text="Полином Лагранжа",
+                    font=("Arial", 15, "bold"),
                     wraplength=100,
                     justify=tk.LEFT,
                     text_color=config.TEXT_COLOR_IN_FRAME,
                 ),
                 self.newton_field: ctk.CTkLabel(
                     self,
-                    text='Полином Ньютона',
-                    font=('Arial', 15, 'bold'),
+                    text="Полином Ньютона",
+                    font=("Arial", 15, "bold"),
                     wraplength=100,
                     justify=tk.LEFT,
                     text_color=config.TEXT_COLOR_IN_FRAME,
@@ -492,7 +492,7 @@ class Polinom(BaseWindow):
             }
 
         for field in self.polinoms_fields.keys():
-            field.configure(state='readonly')
+            field.configure(state="readonly")
 
         offset_y = 0
         for field, label in self.polinoms_fields.items():
@@ -512,16 +512,16 @@ class Polinom(BaseWindow):
 
         title_label = ctk.CTkLabel(
             graphic_frame,
-            text='График функции',
-            font=('Arial', 15, 'bold'),
+            text="График функции",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         title_label.place(relx=0.5, rely=0.05, anchor=tk.CENTER)
 
         self.figure = Figure(figsize=(5.5, 4.5), dpi=60)
         self.ax = self.figure.add_subplot(111)
-        self.ax.set_xlabel('x', fontsize=10)
-        self.ax.set_ylabel('y', fontsize=10)
+        self.ax.set_xlabel("x", fontsize=10)
+        self.ax.set_ylabel("y", fontsize=10)
         self.ax.grid(True, alpha=0.3)
 
         self.canvas = FigureCanvasTkAgg(self.figure, master=graphic_frame)
@@ -534,12 +534,12 @@ class Polinom(BaseWindow):
             height=260,
         )
 
-    def show_popup(self, text, popup_type='error'):
-        if popup_type == 'error':
+    def show_popup(self, text, popup_type="error"):
+        if popup_type == "error":
             self.clear_fields(warned=True)
-            tkm.showerror('Ошибка', message=text)
-        elif popup_type == 'info':
-            tkm.showerror('Информация', message=text)
+            tkm.showerror("Ошибка", message=text)
+        elif popup_type == "info":
+            tkm.showerror("Информация", message=text)
 
     def initUI(self):
         self.create_text_field()

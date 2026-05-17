@@ -43,8 +43,8 @@ class BaseMNK(BaseMethods):
 
         title_label = ctk.CTkLabel(
             self.graphic_frame,
-            text='Аппроксимация методом наименьших квадратов',
-            font=('Arial', 15, 'bold'),
+            text="Аппроксимация методом наименьших квадратов",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
             bg_color=config.BACKGROUNG_COLOR,
         )
@@ -52,14 +52,18 @@ class BaseMNK(BaseMethods):
 
         self.figure = Figure(figsize=(5.5, 4.5), dpi=65)
         self.ax = self.figure.add_subplot(111)
-        self.ax.set_xlabel('x', fontsize=10)
-        self.ax.set_ylabel('y', fontsize=10)
+        self.ax.set_xlabel("x", fontsize=10)
+        self.ax.set_ylabel("y", fontsize=10)
         self.ax.grid(True, alpha=0.3)
 
         self.canvas = FigureCanvasTkAgg(self.figure, master=self.graphic_frame)
         self.canvas.draw()
         self.canvas.get_tk_widget().place(
-            relx=0.5, rely=0.54, anchor=tk.CENTER, width=400, height=320,
+            relx=0.5,
+            rely=0.54,
+            anchor=tk.CENTER,
+            width=400,
+            height=320,
         )
 
     def create_text_field(self):
@@ -74,16 +78,16 @@ class BaseMNK(BaseMethods):
         self.values_listbox.place(relx=0.05, rely=0.1)
         self.x_label = ctk.CTkLabel(
             self,
-            text='x',
-            font=('Arial', 15, 'bold'),
+            text="x",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
             bg_color=config.BACKGROUNG_COLOR,
         )
         self.x_label.place(relx=0.091, rely=0.03)
         self.y_label = ctk.CTkLabel(
             self,
-            text='y',
-            font=('Arial', 15, 'bold'),
+            text="y",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
             bg_color=config.BACKGROUNG_COLOR,
         )
@@ -92,8 +96,8 @@ class BaseMNK(BaseMethods):
     def create_adding_values(self):
         self.x_adding_label = ctk.CTkLabel(
             self,
-            text='x',
-            font=('Arial', 15, 'bold'),
+            text="x",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
             bg_color=config.BACKGROUNG_COLOR,
         )
@@ -112,8 +116,8 @@ class BaseMNK(BaseMethods):
 
         self.y_adding_label = ctk.CTkLabel(
             self,
-            text='y',
-            font=('Arial', 15, 'bold'),
+            text="y",
+            font=("Arial", 15, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
             bg_color=config.BACKGROUNG_COLOR,
         )
@@ -132,7 +136,7 @@ class BaseMNK(BaseMethods):
 
         self.add_btn = ctk.CTkButton(
             self,
-            text='Добавить значения',
+            text="Добавить значения",
             width=150,
             corner_radius=15,
             command=self.add_values,
@@ -144,7 +148,7 @@ class BaseMNK(BaseMethods):
         self.add_btn.place(relx=0.025, rely=0.82)
         self.remove_btn = ctk.CTkButton(
             self,
-            text='Удалить значения',
+            text="Удалить значения",
             width=150,
             corner_radius=15,
             command=self.remove_values,
@@ -156,7 +160,7 @@ class BaseMNK(BaseMethods):
         self.remove_btn.place(relx=0.17, rely=0.82)
         self.clear_btn = ctk.CTkButton(
             self,
-            text='Очистить значения',
+            text="Очистить значения",
             width=150,
             corner_radius=15,
             command=self.clear_table,
@@ -176,7 +180,7 @@ class BaseMNK(BaseMethods):
     def remove_values(self):
         selected_values = self.values_listbox.curselection()
         if not selected_values:
-            self.show_popup('Не выбраны значения для удаления', 'info')
+            self.show_popup("Не выбраны значения для удаления", "info")
             return
 
         selected_values = selected_values[0]
@@ -196,20 +200,20 @@ class BaseMNK(BaseMethods):
         self.build_graphic(coef1, coef2, coef3)
 
     def add_values(self):
-        x = self.x_field.get().replace(',', '.')
-        y = self.y_field.get().replace(',', '.')
+        x = self.x_field.get().replace(",", ".")
+        y = self.y_field.get().replace(",", ".")
         if not self.check_is_number(x):
-            self.show_popup('x не число!')
+            self.show_popup("x не число!")
             return
 
         if not self.check_is_number(y):
-            self.show_popup('y не число!')
+            self.show_popup("y не число!")
             return
 
         x, y = float(x), float(y)
         is_warned = False
         if x in [i[0] for i in self.x_y_list]:
-            self.show_popup('Такая точка x уже добавлена в список!', 'info')
+            self.show_popup("Такая точка x уже добавлена в список!", "info")
             is_warned = True
 
         if not is_warned:
@@ -226,12 +230,12 @@ class BaseMNK(BaseMethods):
         self.update_functions_fields(coef1, coef2, coef3)
         self.build_graphic(coef1, coef2, coef3)
 
-    def show_popup(self, text, popup_type='error'):
-        if popup_type == 'error':
+    def show_popup(self, text, popup_type="error"):
+        if popup_type == "error":
             self.clear_fields(warned=True)
-            tkm.showerror('Ошибка', message=text)
-        elif popup_type == 'info':
-            tkm.showerror('Информация', message=text)
+            tkm.showerror("Ошибка", message=text)
+        elif popup_type == "info":
+            tkm.showerror("Информация", message=text)
 
     def clear_fields(self, warned=False):
         pass
@@ -244,7 +248,7 @@ class BaseMNK(BaseMethods):
         formatted_list = []
         for x, y in self.x_y_list:
             formatted_list.append(
-                '\t' + 5 * ' ' + f'{x:<13}' + '\t' * 4 + f'{y:<13}',
+                "\t" + 5 * " " + f"{x:<13}" + "\t" * 4 + f"{y:<13}",
             )
 
         return formatted_list

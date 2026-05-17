@@ -15,42 +15,33 @@ class LoadingDialog:
 
     def show(
         self,
-        message='Вычисление минимального n...\n'
-        'Это может занять некоторое время',
+        message="Вычисление минимального n...\n" "Это может занять некоторое время",
     ):
         self.cancel_flag = False
 
         self.dialog = tk.Toplevel(self.parent)
-        self.dialog.title('Подождите')
-        self.dialog.geometry('350x150')
+        self.dialog.title("Подождите")
+        self.dialog.geometry("350x150")
         self.dialog.transient(self.parent)
         self.dialog.grab_set()
         self.dialog.resizable(False, False)
 
         self.dialog.update_idletasks()
-        x = (
-            self.parent.winfo_x()
-            + (self.parent.winfo_width() // 2)
-            - (350 // 2)
-        )
-        y = (
-            self.parent.winfo_y()
-            + (self.parent.winfo_height() // 2)
-            - (150 // 2)
-        )
-        self.dialog.geometry(f'+{x}+{y}')
+        x = self.parent.winfo_x() + (self.parent.winfo_width() // 2) - (350 // 2)
+        y = self.parent.winfo_y() + (self.parent.winfo_height() // 2) - (150 // 2)
+        self.dialog.geometry(f"+{x}+{y}")
 
         self.label = ttk.Label(
             self.dialog,
             text=message,
-            font=('Arial', 11),
+            font=("Arial", 11),
             justify=tk.CENTER,
         )
         self.label.pack(pady=15)
 
         self.progress = ttk.Progressbar(
             self.dialog,
-            mode='indeterminate',
+            mode="indeterminate",
             length=300,
         )
         self.progress.pack(pady=10)
@@ -58,12 +49,12 @@ class LoadingDialog:
 
         self.cancel_button = ttk.Button(
             self.dialog,
-            text='Отмена',
+            text="Отмена",
             command=self.cancel,
         )
         self.cancel_button.pack(pady=10)
 
-        self.dialog.protocol('WM_DELETE_WINDOW', lambda: None)
+        self.dialog.protocol("WM_DELETE_WINDOW", lambda: None)
 
         self.dialog.update()
 
@@ -77,8 +68,8 @@ class LoadingDialog:
 
     def cancel(self):
         self.cancel_flag = True
-        self.label.config(text='Отмена вычислений...')
-        self.cancel_button.config(state='disabled')
+        self.label.config(text="Отмена вычислений...")
+        self.cancel_button.config(state="disabled")
         self.dialog.update()
 
     def update_message(self, message):

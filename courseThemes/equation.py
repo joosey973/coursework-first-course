@@ -42,9 +42,7 @@ class Equation(BaseWindow):
 
     def find_function_values(self, x, function_choice):
         return (
-            self.first_function(x)
-            if function_choice == 1
-            else self.second_function(x)
+            self.first_function(x) if function_choice == 1 else self.second_function(x)
         )
 
     def find_derivative(self, x, function_choice):
@@ -73,23 +71,23 @@ class Equation(BaseWindow):
 
         title_label = ctk.CTkLabel(
             values_frame,
-            text='Параметры',
-            font=('Arial', 16, 'bold'),
+            text="Параметры",
+            font=("Arial", 16, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         title_label.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
 
         a_label = ctk.CTkLabel(
             values_frame,
-            text='a:',
-            font=('Arial', 14, 'bold'),
+            text="a:",
+            font=("Arial", 14, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         a_label.place(relx=0.1, rely=0.35)
 
         self.a_field = ctk.CTkEntry(
             values_frame,
-            font=('Arial', 14),
+            font=("Arial", 14),
             width=200,
             corner_radius=8,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -97,19 +95,19 @@ class Equation(BaseWindow):
             border_color=config.BORDER_COLOR,
         )
         self.a_field.place(relx=0.3, rely=0.35)
-        self.a_field.bind('<KeyRelease>', lambda e: self.clear_method_fields())
+        self.a_field.bind("<KeyRelease>", lambda e: self.clear_method_fields())
 
         b_label = ctk.CTkLabel(
             values_frame,
-            text='b:',
-            font=('Arial', 14, 'bold'),
+            text="b:",
+            font=("Arial", 14, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         b_label.place(relx=0.1, rely=0.55)
 
         self.b_field = ctk.CTkEntry(
             values_frame,
-            font=('Arial', 14),
+            font=("Arial", 14),
             width=200,
             corner_radius=8,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -117,19 +115,19 @@ class Equation(BaseWindow):
             border_color=config.BORDER_COLOR,
         )
         self.b_field.place(relx=0.3, rely=0.55)
-        self.b_field.bind('<KeyRelease>', lambda e: self.clear_method_fields())
+        self.b_field.bind("<KeyRelease>", lambda e: self.clear_method_fields())
 
         eps_label = ctk.CTkLabel(
             values_frame,
-            text='ε:',
-            font=('Arial', 14, 'bold'),
+            text="ε:",
+            font=("Arial", 14, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         eps_label.place(relx=0.1, rely=0.75)
 
         self.eps_field = ctk.CTkEntry(
             values_frame,
-            font=('Arial', 14),
+            font=("Arial", 14),
             width=200,
             corner_radius=8,
             fg_color=config.BACKGROUND_FIELD_COLOR,
@@ -137,9 +135,9 @@ class Equation(BaseWindow):
             border_color=config.BORDER_COLOR,
         )
         self.eps_field.place(relx=0.3, rely=0.75)
-        self.eps_field.insert(0, '0.0001')
+        self.eps_field.insert(0, "0.0001")
         self.eps_field.bind(
-            '<KeyRelease>',
+            "<KeyRelease>",
             lambda e: self.clear_method_fields(),
         )
 
@@ -155,47 +153,47 @@ class Equation(BaseWindow):
 
         title_label = ctk.CTkLabel(
             methods_frame,
-            text='Результаты методов',
-            font=('Arial', 16, 'bold'),
+            text="Результаты методов",
+            font=("Arial", 16, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         title_label.place(relx=0.5, rely=0.05, anchor=tk.CENTER)
 
         method_header = ctk.CTkLabel(
             methods_frame,
-            text='Метод',
-            font=('Arial', 14, 'bold'),
+            text="Метод",
+            font=("Arial", 14, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         method_header.place(relx=0.1, rely=0.12)
 
         value_header = ctk.CTkLabel(
             methods_frame,
-            text='Корень',
-            font=('Arial', 14, 'bold'),
+            text="Корень",
+            font=("Arial", 14, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         value_header.place(relx=0.45, rely=0.12)
 
         iter_header = ctk.CTkLabel(
             methods_frame,
-            text='Итерации',
-            font=('Arial', 14, 'bold'),
+            text="Итерации",
+            font=("Arial", 14, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         iter_header.place(relx=0.75, rely=0.12)
 
         dihotomia_label = ctk.CTkLabel(
             methods_frame,
-            text='Дихотомия:',
-            font=('Arial', 13),
+            text="Дихотомия:",
+            font=("Arial", 13),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         dihotomia_label.place(relx=0.1, rely=0.22)
 
         self.dihotomia_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 13),
+            font=("Arial", 13),
             width=150,
             corner_radius=8,
             height=30,
@@ -207,7 +205,7 @@ class Equation(BaseWindow):
 
         self.dihotomia_iter_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 13),
+            font=("Arial", 13),
             width=80,
             corner_radius=8,
             height=30,
@@ -219,15 +217,15 @@ class Equation(BaseWindow):
 
         hord_label = ctk.CTkLabel(
             methods_frame,
-            text='Хорд:',
-            font=('Arial', 13),
+            text="Хорд:",
+            font=("Arial", 13),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         hord_label.place(relx=0.1, rely=0.32)
 
         self.hord_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 13),
+            font=("Arial", 13),
             width=150,
             corner_radius=8,
             height=30,
@@ -239,7 +237,7 @@ class Equation(BaseWindow):
 
         self.hord_iter_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 13),
+            font=("Arial", 13),
             width=80,
             corner_radius=8,
             height=30,
@@ -251,15 +249,15 @@ class Equation(BaseWindow):
 
         kas_label = ctk.CTkLabel(
             methods_frame,
-            text='Касательных:',
-            font=('Arial', 13),
+            text="Касательных:",
+            font=("Arial", 13),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         kas_label.place(relx=0.1, rely=0.42)
 
         self.kas_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 13),
+            font=("Arial", 13),
             width=150,
             corner_radius=8,
             height=30,
@@ -271,7 +269,7 @@ class Equation(BaseWindow):
 
         self.kas_iter_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 13),
+            font=("Arial", 13),
             width=80,
             corner_radius=8,
             height=30,
@@ -283,15 +281,15 @@ class Equation(BaseWindow):
 
         comb_label = ctk.CTkLabel(
             methods_frame,
-            text='Комбинированный:',
-            font=('Arial', 13),
+            text="Комбинированный:",
+            font=("Arial", 13),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         comb_label.place(relx=0.1, rely=0.52)
 
         self.comb_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 13),
+            font=("Arial", 13),
             width=150,
             corner_radius=8,
             height=30,
@@ -303,7 +301,7 @@ class Equation(BaseWindow):
 
         self.comb_iter_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 13),
+            font=("Arial", 13),
             width=80,
             corner_radius=8,
             height=30,
@@ -315,15 +313,15 @@ class Equation(BaseWindow):
 
         iter_label = ctk.CTkLabel(
             methods_frame,
-            text='Итераций:',
-            font=('Arial', 13),
+            text="Итераций:",
+            font=("Arial", 13),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         iter_label.place(relx=0.1, rely=0.62)
 
         self.iter_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 13),
+            font=("Arial", 13),
             width=150,
             corner_radius=8,
             height=30,
@@ -335,7 +333,7 @@ class Equation(BaseWindow):
 
         self.iter_iter_field = ctk.CTkEntry(
             methods_frame,
-            font=('Arial', 13),
+            font=("Arial", 13),
             width=80,
             corner_radius=8,
             height=30,
@@ -359,7 +357,7 @@ class Equation(BaseWindow):
         ]
 
         for field in readonly_fields:
-            field.configure(state='readonly')
+            field.configure(state="readonly")
 
     def create_functions_choice(self):
         functions_frame = ctk.CTkFrame(
@@ -373,8 +371,8 @@ class Equation(BaseWindow):
 
         title_label = ctk.CTkLabel(
             functions_frame,
-            text='Выберите функцию',
-            font=('Arial', 16, 'bold'),
+            text="Выберите функцию",
+            font=("Arial", 16, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         title_label.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
@@ -382,22 +380,22 @@ class Equation(BaseWindow):
         self.radio_var = tk.IntVar(value=1)
         first_function_btn = ctk.CTkRadioButton(
             functions_frame,
-            text='f(x) = 3ˣ - 2x - 5',
+            text="f(x) = 3ˣ - 2x - 5",
             variable=self.radio_var,
             value=1,
             command=self.on_function_change,
-            font=('Arial', 13),
+            font=("Arial", 13),
             fg_color=config.BUTTON_COLOR,
             text_color=config.TEXT_COLOR_IN_FRAME,
             hover_color=config.HOVER_BUTTON_COLOR,
         )
         second_function_btn = ctk.CTkRadioButton(
             functions_frame,
-            text='f(x) = 3x⁴ + 8x³ + 6x² - 10',
+            text="f(x) = 3x⁴ + 8x³ + 6x² - 10",
             variable=self.radio_var,
             value=2,
             command=self.on_function_change,
-            font=('Arial', 13),
+            font=("Arial", 13),
             fg_color=config.BUTTON_COLOR,
             text_color=config.TEXT_COLOR_IN_FRAME,
             hover_color=config.HOVER_BUTTON_COLOR,
@@ -418,11 +416,11 @@ class Equation(BaseWindow):
 
         update_sections_btn = ctk.CTkButton(
             buttons_frame,
-            text='Автоподбор отрезка',
+            text="Автоподбор отрезка",
             corner_radius=10,
             width=180,
             height=35,
-            font=('Arial', 13),
+            font=("Arial", 13),
             command=self.update_sections,
             fg_color=config.BUTTON_COLOR,
             text_color=config.TEXT_COLOR_IN_BTN,
@@ -432,11 +430,11 @@ class Equation(BaseWindow):
 
         solve_btn = ctk.CTkButton(
             buttons_frame,
-            text='Решить уравнение',
+            text="Решить уравнение",
             corner_radius=10,
             width=180,
             height=35,
-            font=('Arial', 13),
+            font=("Arial", 13),
             command=self.solve_equation,
             fg_color=config.BUTTON_COLOR,
             text_color=config.TEXT_COLOR_IN_BTN,
@@ -446,11 +444,11 @@ class Equation(BaseWindow):
 
         graphic_btn = ctk.CTkButton(
             buttons_frame,
-            text='Построить график',
+            text="Построить график",
             corner_radius=10,
             width=180,
             height=35,
-            font=('Arial', 13),
+            font=("Arial", 13),
             command=self.build_graphic,
             fg_color=config.BUTTON_COLOR,
             text_color=config.TEXT_COLOR_IN_BTN,
@@ -460,12 +458,12 @@ class Equation(BaseWindow):
 
         back_to_menu_btn = ctk.CTkButton(
             buttons_frame,
-            text='Вернуться в меню<',
+            text="Вернуться в меню<",
             corner_radius=10,
             width=180,
             height=35,
-            font=('Arial', 13),
-            command=lambda: self.create_new_window('Меню'),
+            font=("Arial", 13),
+            command=lambda: self.create_new_window("Меню"),
             fg_color=config.BUTTON_COLOR,
             text_color=config.TEXT_COLOR_IN_BTN,
             hover_color=config.HOVER_BUTTON_COLOR,
@@ -484,16 +482,16 @@ class Equation(BaseWindow):
 
         title_label = ctk.CTkLabel(
             graphic_frame,
-            text='График функции',
-            font=('Arial', 16, 'bold'),
+            text="График функции",
+            font=("Arial", 16, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         title_label.place(relx=0.5, rely=0.05, anchor=tk.CENTER)
 
         self.figure = Figure(figsize=(5.5, 4.5), dpi=90)
         self.ax = self.figure.add_subplot(111)
-        self.ax.set_xlabel('x', fontsize=10)
-        self.ax.set_ylabel('y', fontsize=10)
+        self.ax.set_xlabel("x", fontsize=10)
+        self.ax.set_ylabel("y", fontsize=10)
         self.ax.grid(True, alpha=0.3)
 
         self.canvas = FigureCanvasTkAgg(self.figure, master=graphic_frame)
@@ -518,14 +516,14 @@ class Equation(BaseWindow):
 
         if function_choice == 1:
             self.a_field.delete(0, tk.END)
-            self.a_field.insert(0, '0')
+            self.a_field.insert(0, "0")
             self.b_field.delete(0, tk.END)
-            self.b_field.insert(0, '3')
+            self.b_field.insert(0, "3")
         else:
             self.a_field.delete(0, tk.END)
-            self.a_field.insert(0, '-3')
+            self.a_field.insert(0, "-3")
             self.b_field.delete(0, tk.END)
-            self.b_field.insert(0, '1')
+            self.b_field.insert(0, "1")
 
     def clear_method_fields(self):
         fields = [
@@ -542,30 +540,30 @@ class Equation(BaseWindow):
         ]
 
         for field in fields:
-            field.configure(state='normal')
+            field.configure(state="normal")
             field.delete(0, tk.END)
-            field.configure(state='readonly')
+            field.configure(state="readonly")
 
     def validate_inputs(self):
         try:
-            a = float(self.a_field.get().replace(',', '.'))
-            b = float(self.b_field.get().replace(',', '.'))
-            eps = float(self.eps_field.get().replace(',', '.'))
+            a = float(self.a_field.get().replace(",", "."))
+            b = float(self.b_field.get().replace(",", "."))
+            eps = float(self.eps_field.get().replace(",", "."))
 
             if a >= b:
-                tkm.showerror('Ошибка', 'a должно быть меньше b')
+                tkm.showerror("Ошибка", "a должно быть меньше b")
                 return False
 
             if eps <= 0 or eps >= 1:
                 tkm.showerror(
-                    'Ошибка',
-                    'Точность должна быть в интервале (0, 1)',
+                    "Ошибка",
+                    "Точность должна быть в интервале (0, 1)",
                 )
                 return False
 
             return True
         except ValueError:
-            tkm.showerror('Ошибка', 'Введите корректные числовые значения')
+            tkm.showerror("Ошибка", "Введите корректные числовые значения")
             return False
 
     def update_sections(self):
@@ -575,23 +573,23 @@ class Equation(BaseWindow):
         self.update_idletasks()
         if section:
             self.a_field.delete(0, tk.END)
-            self.a_field.insert(0, f'{section[0]:.4f}')
+            self.a_field.insert(0, f"{section[0]:.4f}")
             self.b_field.delete(0, tk.END)
-            self.b_field.insert(0, f'{section[1]:.4f}')
+            self.b_field.insert(0, f"{section[1]:.4f}")
 
             self.clear_method_fields()
 
             self.build_graphic()
 
             tkm.showinfo(
-                'Информация',
-                f'Найден отрезок [{section[0]:.4f}; {section[1]:.4f}]\n'
-                f'Значения автоматически подставлены в поля',
+                "Информация",
+                f"Найден отрезок [{section[0]:.4f}; {section[1]:.4f}]\n"
+                f"Значения автоматически подставлены в поля",
             )
         else:
             tkm.showwarning(
-                'Предупреждение',
-                'Не удалось найти подходящий отрезок',
+                "Предупреждение",
+                "Не удалось найти подходящий отрезок",
             )
 
     def find_section(self, function_choice, a=0, b=0, step=0.05):
@@ -636,7 +634,7 @@ class Equation(BaseWindow):
 
         if fa * fb > 0:
             raise ValueError(
-                'Функция должна иметь разные знаки на концах отрезка',
+                "Функция должна иметь разные знаки на концах отрезка",
             )
 
         while True:
@@ -767,23 +765,23 @@ class Equation(BaseWindow):
             iterations += 1
 
     def show_error(self, text):
-        tkm.showerror('Ошибка', message=text)
+        tkm.showerror("Ошибка", message=text)
 
     def solve_equation(self):
         if not self.validate_inputs():
             return
 
         function_choice = self.radio_var.get()
-        a = float(self.a_field.get().replace(',', '.'))
-        b = float(self.b_field.get().replace(',', '.'))
-        eps = float(self.eps_field.get().replace(',', '.'))
+        a = float(self.a_field.get().replace(",", "."))
+        b = float(self.b_field.get().replace(",", "."))
+        eps = float(self.eps_field.get().replace(",", "."))
 
         segment = self.find_section(function_choice, a, b)
         a, b = segment[0][0], segment[0][1]
         fa = self.find_function_values(a, function_choice)
         fb = self.find_function_values(b, function_choice)
         if fa * fb > 0:
-            self.show_error('На указанном отрезке может не быть корня.\n')
+            self.show_error("На указанном отрезке может не быть корня.\n")
             return
 
         self.clear_method_fields()
@@ -810,28 +808,28 @@ class Equation(BaseWindow):
             self.update_field(self.iter_iter_field, iterations)
 
         except Exception as e:
-            tkm.showerror('Ошибка', f'Ошибка при вычислении: {str(e)}')
+            tkm.showerror("Ошибка", f"Ошибка при вычислении: {str(e)}")
 
     def update_field(self, field, value):
-        field.configure(state='normal')
+        field.configure(state="normal")
         field.delete(0, tk.END)
         if isinstance(value, float):
             if abs(value) < 0.0001:
-                field.insert(0, f'{value:.6e}')
+                field.insert(0, f"{value:.6e}")
             else:
-                field.insert(0, f'{value:.8f}')
+                field.insert(0, f"{value:.8f}")
         else:
             field.insert(0, str(value))
 
-        field.configure(state='readonly')
+        field.configure(state="readonly")
 
     def build_graphic(self):
         if not self.validate_inputs():
             return
 
         function_choice = self.radio_var.get()
-        a = float(self.a_field.get().replace(',', '.'))
-        b = float(self.b_field.get().replace(',', '.'))
+        a = float(self.a_field.get().replace(",", "."))
+        b = float(self.b_field.get().replace(",", "."))
 
         padding = (b - a) * 0.1
         x_min = a - padding
@@ -841,52 +839,52 @@ class Equation(BaseWindow):
         y = self.find_function_values(x, function_choice)
 
         self.ax.clear()
-        self.ax.plot(x, y, 'b-', linewidth=2, label='f(x)')
+        self.ax.plot(x, y, "b-", linewidth=2, label="f(x)")
         self.ax.axhline(
             y=0,
-            color='k',
-            linestyle='-',
+            color="k",
+            linestyle="-",
             linewidth=0.5,
             alpha=0.5,
         )
         self.ax.axvline(
             x=0,
-            color='k',
-            linestyle='-',
+            color="k",
+            linestyle="-",
             linewidth=0.5,
             alpha=0.5,
         )
         self.ax.grid(True, alpha=0.3)
-        self.ax.set_xlabel('x', fontsize=10)
-        self.ax.set_ylabel('y', fontsize=10)
+        self.ax.set_xlabel("x", fontsize=10)
+        self.ax.set_ylabel("y", fontsize=10)
 
         if function_choice == 1:
-            self.ax.set_title('f(x) = 3ˣ - 2x - 5', fontsize=12)
+            self.ax.set_title("f(x) = 3ˣ - 2x - 5", fontsize=12)
         else:
-            self.ax.set_title('f(x) = 3x⁴ + 8x³ + 6x² - 10', fontsize=12)
+            self.ax.set_title("f(x) = 3x⁴ + 8x³ + 6x² - 10", fontsize=12)
 
         self.ax.axvline(
             x=a,
-            color='r',
-            linestyle='--',
+            color="r",
+            linestyle="--",
             alpha=0.5,
             linewidth=1,
-            label=f'a = {a:.4f}',
+            label=f"a = {a:.4f}",
         )
         self.ax.axvline(
             x=b,
-            color='g',
-            linestyle='--',
+            color="g",
+            linestyle="--",
             alpha=0.5,
             linewidth=1,
-            label=f'b = {b:.4f}',
+            label=f"b = {b:.4f}",
         )
 
         y_min, y_max = np.min(y), np.max(y)
         y_padding = max(0.1, (y_max - y_min) * 0.1)
         self.ax.set_ylim(y_min - y_padding, y_max + y_padding)
 
-        self.ax.legend(fontsize=9, loc='best')
+        self.ax.legend(fontsize=9, loc="best")
 
         self.canvas.draw()
 

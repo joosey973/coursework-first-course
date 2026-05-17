@@ -15,18 +15,18 @@ class Menu(BaseWindow):
     def create_buttons_and_label(self):
         theme_label = ctk.CTkLabel(
             self.parent,
-            text='Выберите тему',
-            font=('Arial', 25, 'bold'),
+            text="Выберите тему",
+            font=("Arial", 25, "bold"),
             text_color=config.TEXT_COLOR_IN_FRAME,
         )
         theme_label.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
         buttons_texts = [
-            'Интегралы',
-            'МНК',
-            'Уравнения',
-            'МКР',
-            'Полиномы',
-            'От автора',
+            "Интегралы",
+            "МНК",
+            "Уравнения",
+            "МКР",
+            "Полиномы",
+            "От автора",
         ]
         count = 0
         add_x, add_y = 0.05, 0.3
@@ -50,7 +50,7 @@ class Menu(BaseWindow):
                 add_y += 0.18
                 count = 0
 
-        button_text = 'Настройки'
+        button_text = "Настройки"
         btn = ctk.CTkButton(
             self.parent,
             corner_radius=10,
