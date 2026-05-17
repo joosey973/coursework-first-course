@@ -1,5 +1,6 @@
 [flake8]
 application-import-names = auxiliaryClasses, courseThemes, dialogs
+inline-quotes = double
 exclude = venv/,
           env/,
           .env,
