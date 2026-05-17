@@ -139,6 +139,12 @@ class BaseWindow(BaseMethods, tk.Frame):
         self.parent.config(bg=config.BACKGROUNG_COLOR)
         self.config(bg=config.BACKGROUNG_COLOR)
         self.initUI()
+    
+    def from_author(self):
+        import webbrowser
+
+        REPO_URL = "https://github.com/joosey973/coursework-first-course.git#readme"
+        webbrowser.open(REPO_URL)
 
     def create_new_window(self, window_name, x=None, y=None):
         from auxiliaryClasses.menu import Menu
@@ -148,6 +154,10 @@ class BaseWindow(BaseMethods, tk.Frame):
         from courseThemes.mnk import MNK
         from courseThemes.polinom import Polinom
         from settings import Settings
+
+        if window_name == "От автора":
+            self.from_author()
+            return
 
         window_classes = {
             "Интегралы": Integration,
@@ -173,7 +183,7 @@ class BaseWindow(BaseMethods, tk.Frame):
         root = tk.Tk()
         app_class = window_classes.get(window_name)
         title = window_titles.get(window_name, window_name)
-
+        
         if app_class:
             _ = app_class(root, title, x=x, y=y)
             root.mainloop()
