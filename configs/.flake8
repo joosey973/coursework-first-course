@@ -1,0 +1,8 @@
+[flake8]
+application-import-names = auxiliaryClasses, courseThemes, dialogs
+exclude = venv/,
+          env/,
+          .env,
+          .venv/,
+extend-ignore = I201, I100, W503
+ignore = I201, I100, N802, N806, N803, E731

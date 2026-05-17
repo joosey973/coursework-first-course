@@ -1,0 +1,36 @@
+name: lint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  flake8-and-isort:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+      - name: install dependencies
+        run: pip install -r requirements/test.txt
+      - name: run flake8 and isort
+        run: |
+          cp configs/.flake8 .flake8
+          cp configs/.isort.cfg .isort.cfg
+          flake8 --verbose .
+          isort --check .
+  
+  black:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+      - name: install dependencies
+        run: pip install -r requirements/dev.txt
+      - name: run black
+        run: |
+          cp configs/pyproject.toml pyproject.toml
+          black --check .

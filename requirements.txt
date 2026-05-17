@@ -1,5 +1,0 @@
-customtkinter
-dotenv
-matplotlib
-numpy
-sympy

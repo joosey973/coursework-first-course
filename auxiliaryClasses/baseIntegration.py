@@ -1,15 +1,22 @@
+__all__ = []
+
 import numpy as np
 
 from auxiliaryClasses.baseWindow import BaseWindow
+import config
 
 
 class BaseIntegration(BaseWindow):
+    def __init__(self, parent, title, width=500, height=400, x=None, y=None):
+        super().__init__(parent, title, width, height, x, y)
+        self.configure(bg=config.BACKGROUNG_COLOR)
+
     def integral_func_one(self, x):
-        return 1 / np.sqrt(3 * x ** 2 - 2.5)
+        return 1 / np.sqrt(3 * x**2 - 2.5)
 
     def integral_func_two(self, x):
-        return np.sqrt(0.3 * x ** 2 + 2.3) / (1.8 + np.sqrt(2 * x - 2.6))
-    
+        return np.sqrt(0.3 * x**2 + 2.3) / (1.8 + np.sqrt(2 * x - 2.6))
+
     def rectl(self, f, step):
         return step * sum(f[:-1])
 
@@ -22,9 +29,12 @@ class BaseIntegration(BaseWindow):
     def simp(self, f, step):
         if (len(f) - 1) % 2 != 0:
             return None
-        
-        return (step / 3) * ((4 * np.sum(f[1:-1:2])) + (2 * np.sum(f[2:-1:2])) + f[0] + f[-1])
-    
+
+        even_sum = 4 * np.sum(f[1:-1:2])
+        odd_sum = 2 * np.sum(f[2:-1:2])
+
+        return (step / 3) * (f[0] + f[1] + even_sum + odd_sum)
+
     def validate(self, a, b, n=None, eps_num=None):
         if not self.check_is_number(a):
             self.show_error('a должно быть числом!')
@@ -44,24 +54,25 @@ class BaseIntegration(BaseWindow):
             if not self.check_is_number(eps_num):
                 self.show_error('Точность должна быть числом!')
                 return False
+
             if not (0 < float(eps_num) < 1):
                 self.show_error('Точность должна ∈ (0; 1)!')
                 return False
-        
+
         return True
-    
+
     def get_vals(self, **kwargs):
         if kwargs.get('a_field') is None:
             a_num = self.a_field.get().replace(',', '.')
             b_num = self.b_field.get().replace(',', '.')
             function_choice = self.radio_var.get()
-            
+
             if not kwargs.get('is_n_min'):
                 n_num = self.n_field.get().replace(',', '.')
 
                 if not self.validate(a_num, b_num, n_num):
                     raise ValueError
-                
+
                 n_num = int(n_num)
             else:
                 if not self.validate(a_num, b_num):
@@ -72,14 +83,14 @@ class BaseIntegration(BaseWindow):
             n_num = kwargs['n_field'].get().replace(',', '.')
             eps_num = kwargs['eps_field'].get().replace(',', '.')
             if not self.validate(a_num, b_num, n_num, eps_num):
-                    raise ValueError
+                raise ValueError
 
         a_num = float(a_num)
         b_num = float(b_num)
         if kwargs.get('a_field') is not None:
             eps_num = float(eps_num)
             return a_num, b_num, n_num, eps_num
-        
+
         if not kwargs.get('is_n_min'):
             return a_num, b_num, n_num, function_choice
 
