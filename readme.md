@@ -82,7 +82,7 @@ pip install -r requirements/test.txt
 |---|---|
 | `cp .env.example .env` | `copy .env.example .env` |
 
-Откройте `.env` и заполните переменные:
+Откройте `.env` (`nano .env` или через графический интерфейс) и заполните переменные:
 
 ```env
 # Путь к папке с медиафайлами
