@@ -1,5 +1,4 @@
 name: Release
-
 on:
   push:
     tags:
@@ -12,18 +11,16 @@ jobs:
         include:
           - os: windows-latest
             artifact_name: coursework.exe
-            pyinstaller_args: --onefile --windowed
-            icon_arg: --icon assets/icon.ico
-
+            pyinstaller_args: "--onefile --windowed"
+            icon_arg: "--icon assets/icon.ico"
           - os: macos-latest
             artifact_name: coursework.dmg
-            pyinstaller_args: --windowed
-            icon_arg: --icon assets/icon.icns
-
+            pyinstaller_args: "--windowed"
+            icon_arg: "--icon assets/icon.icns"
           - os: ubuntu-latest
             artifact_name: coursework
-            pyinstaller_args: --onefile --windowed
-            icon_arg: --icon assets/icon.ico
+            pyinstaller_args: "--onefile --windowed"
+            icon_arg: "--icon assets/icon.ico"
 
     runs-on: ${{ matrix.os }}
 
@@ -39,21 +36,17 @@ jobs:
           pip install pyinstaller
           pip install -r requirements/prod.txt
 
-      - name: Build with PyInstaller (Windows & Linux)
-        if: matrix.os != 'macos-latest'
-        run: |
-          pyinstaller ${{ matrix.pyinstaller_args }} \
-            --name coursework \
-            ${{ matrix.icon_arg }} \
-            main.py
+      - name: Build with PyInstaller (Windows)
+        if: matrix.os == 'windows-latest'
+        run: pyinstaller --onefile --windowed --name coursework --icon assets/icon.ico main.py
+
+      - name: Build with PyInstaller (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: pyinstaller --onefile --windowed --name coursework --icon assets/icon.ico main.py
 
       - name: Build with PyInstaller (macOS)
         if: matrix.os == 'macos-latest'
-        run: |
-          pyinstaller ${{ matrix.pyinstaller_args }} \
-            --name coursework \
-            ${{ matrix.icon_arg }} \
-            main.py
+        run: pyinstaller --windowed --name coursework --icon assets/icon.icns main.py
 
       - name: Package DMG (macOS only)
         if: matrix.os == 'macos-latest'
@@ -63,8 +56,13 @@ jobs:
             --volname "Coursework" \
             --window-size 800 400 \
             --app-drop-link 600 185 \
+            --no-internet-enable \
             dist/coursework.dmg \
-            "dist/coursework.app"
+            "dist/coursework.app" || true
+          if [ ! -f dist/coursework.dmg ]; then
+            hdiutil create -volname "Coursework" -srcfolder dist/coursework.app \
+              -ov -format UDZO dist/coursework.dmg
+          fi
 
       - name: Upload to Release
         uses: softprops/action-gh-release@v2
