@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            artifact_name: coursework.exe
+            pyinstaller_args: --onefile --windowed
+          - os: macos-latest
+            artifact_name: coursework.dmg
+            pyinstaller_args: --onefile --windowed
+          - os: ubuntu-latest
+            artifact_name: coursework
+            pyinstaller_args: --onefile --windowed
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyinstaller
+          pip install -r requirements/prod.txt
+
+      - name: Build with PyInstaller
+        run: |
+          pyinstaller ${{ matrix.pyinstaller_args }} \
+            --name Курсовая \
+            --icon assets/icon.ico \
+            main.py
+
+      - name: Package DMG (macOS only)
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew install create-dmg
+          create-dmg \
+            --volname "Курсовая" \
+            --window-size 800 400 \
+            --app-drop-link 600 185 \
+            dist/my-app.dmg \
+            dist/my-app.app
+
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/${{ matrix.artifact_name }}
