@@ -233,9 +233,9 @@ class BaseMNK(BaseMethods):
     def show_popup(self, text, popup_type="error"):
         if popup_type == "error":
             self.clear_fields(warned=True)
-            tkm.showerror("Ошибка", message=text)
+            self.after(10, lambda: tkm.showerror("Ошибка", message=text))
         elif popup_type == "info":
-            tkm.showerror("Информация", message=text)
+            self.after(10, lambda: tkm.showerror("Информация", message=text))
 
     def clear_fields(self, warned=False):
         pass

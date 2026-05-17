@@ -26,7 +26,7 @@ class TopLevel(BaseMNK, ctk.CTkToplevel):
         self.GRAPHIC_FRAME_HEIGHT = 320
         self.config(bg=config.BACKGROUNG_COLOR)
         self.initTopLevel()
-
+    
     def create_text_field(self):
         super().create_text_field()
         self.x_label.place(relx=0.095, rely=0.03)
@@ -213,7 +213,7 @@ class TopLevel(BaseMNK, ctk.CTkToplevel):
             test_font.configure(size=font_size)
             text_width = test_font.measure(text)
 
-        self.approxima_func_field.configure(font=("Arial", font_size))
+        self.approxima_func_field.configure(font=("Arial", font_size), bg_color=config.BACKGROUNG_COLOR)
 
     def on_change_clear(self, txt=""):
         self.ax.clear()
@@ -253,8 +253,8 @@ class TopLevel(BaseMNK, ctk.CTkToplevel):
             params = self.parse_function(func_str)
             x_sym = sp.Symbol("x")
             param_syms = {p: sp.Symbol(p) for p in params}
-
             func = sp.sympify(func_str, locals=param_syms)
+
             x_data, y_data = [], []
             for x, y in self.x_y_list:
                 x_data.append(x)
@@ -263,40 +263,15 @@ class TopLevel(BaseMNK, ctk.CTkToplevel):
             basis_sym = [sp.diff(func, param_syms[p]) for p in params]
             basis_num = [sp.lambdify(x_sym, bf, "numpy") for bf in basis_sym]
 
-            if not self.check_linear_independence(basis_num, x_data):
-                return None, None
-
-            n_params = len(params)
-            G = [[0 for j in range(n_params)] for i in range(n_params)]
-            for i in range(n_params):
-                for j in range(n_params):
-                    G[i][j] = sum(
-                        [basis_num[i](x) * basis_num[j](x) for x in x_data],
-                    )
-
-            G_2 = np.array(G)
-            if np.linalg.cond(G_2) > 1e10:
-                self.show_popup(
-                    "Ошибка: вырожденная система уравнений!\nПроверьте,"
-                    " что параметры функции линейно независимы.\n"
-                    'Например, запись "a*x^2 + b*x^2" приводит'
-                    " к зависимости параметров.",
-                    "error",
-                )
-                return None, None
-
-            B = [[0] for i in range(n_params)]
-            for i in range(n_params):
-                B[i][0] = sum(
-                    [y * basis_num[i](x) for x, y in zip(x_data, y_data)],
-                )
-
-            coefficients = self.matrix_multiplication(
-                self.find_reversed_matrix(G),
-                B,
+            A = np.array(
+                [[float(basis_num[j](x)) for j in range(len(params))] for x in x_data]
             )
-            coefficients = [float(coef[0]) for coef in coefficients]
-            return coefficients, params
+            b = np.array(y_data, dtype=float)
+
+            coefficients, _, _, _ = np.linalg.lstsq(A, b, rcond=None)
+
+            return coefficients.tolist(), params
+
         except Exception:
             self.show_popup(
                 f"Ошибка в синтаксисе функции: {func_str}\n"
@@ -582,6 +557,127 @@ class TopLevel(BaseMNK, ctk.CTkToplevel):
 
         return True
 
+    def validate_rational_form(self, func_str):
+        try:
+            if "/" not in func_str:
+                return False, (
+                    "Дробно-рациональная функция должна содержать '/'.\n"
+                    "Пример: 1/(a*x^2 + b*x + c) или (a*x + b)/(c*x + d)"
+                )
+
+            func_str_sympy = func_str.replace("^", "**")
+            params = self.parse_function(func_str)
+            if not params:
+                return False, "Функция не содержит параметров для нахождения."
+
+            x_sym = sp.Symbol("x")
+            param_syms = {p: sp.Symbol(p) for p in params}
+            expr = sp.sympify(func_str_sympy, locals=param_syms)
+
+            numerator, denominator = sp.fraction(sp.together(expr))
+
+            if denominator == 1 or denominator == sp.Integer(1):
+                return False, (
+                    "Знаменатель вырожден (равен 1).\n"
+                    "Введите настоящую дробно-рациональную функцию,\n"
+                    "например: 1/(a*x^2 + b*x + c)"
+                )
+
+            y_sym = sp.Symbol("y")
+            linear_expr = sp.expand(y_sym * denominator - numerator)
+
+            x_test = np.linspace(0.1, 10, max(50, len(params) + 5))
+            y_test = np.linspace(0.1, 10, max(50, len(params) + 5))
+
+            A = []
+            for x_val, y_val in zip(x_test, y_test):
+                row = []
+                subs_expr = linear_expr.subs({x_sym: x_val, y_sym: y_val})
+                for p in params:
+                    coeff = float(subs_expr.coeff(param_syms[p]))
+                    row.append(coeff)
+                A.append(row)
+
+            A = np.array(A, dtype=float)
+            rank = np.linalg.matrix_rank(A, tol=1e-10)
+
+            if rank == 0:
+                return False, (
+                    "Функция не зависит от параметров — невозможно построить аппроксимацию."
+                )
+
+            if rank == 1 and len(params) > 1:
+                return False, (
+                    "Математическая ошибка: все параметры являются неразличимыми.\n\n"
+                    "Например, 1/(a*x + b*x) ≡ 1/((a+b)*x) — это одна степень\n"
+                    "свободы. МНК распределит коэффициент между a и b\n"
+                    "произвольно, результат будет бессмысленным.\n\n"
+                    "Используйте форму с независимыми параметрами:\n"
+                    "1/(a*x + b)  или  1/(a*x^2 + b*x + c)"
+                )
+
+            return True, ""
+
+        except Exception as e:
+            return False, f"Ошибка разбора функции: {e}"
+    
+    def validate_polynomial_form(self, func_str):
+        try:
+            func_str_sympy = func_str.replace("^", "**")
+            params = self.parse_function(func_str)
+            if not params:
+                return False, "Функция не содержит параметров для нахождения."
+
+            x_sym = sp.Symbol("x")
+            param_syms = {p: sp.Symbol(p) for p in params}
+            expr = sp.sympify(func_str_sympy, locals=param_syms)
+
+            for p in params:
+                d = sp.degree(sp.expand(expr), gen=param_syms[p])
+                if d != 1:
+                    return False, (
+                        f"Параметр '{p}' должен входить линейно.\n"
+                        "Полиномиальная регрессия поддерживает только линейные по параметрам функции."
+                    )
+
+            basis_sym = [sp.diff(expr, param_syms[p]) for p in params]
+            basis_num = [sp.lambdify(x_sym, bf, "numpy") for bf in basis_sym]
+
+            x_test = np.linspace(0.1, 10, max(50, len(params) + 5))
+            A = np.array([[float(bf(x)) for bf in basis_num] for x in x_test])
+            rank = np.linalg.matrix_rank(A, tol=1e-10)
+
+            if rank == 0:
+                return False, (
+                    "Функция не зависит от x — невозможно построить аппроксимацию."
+                )
+
+            if rank == 1 and len(params) > 1:
+                has_constant = any(
+                    sp.sympify(bf).is_number for bf in basis_sym
+                )
+                if not has_constant:
+                    return False, (
+                        "Математическая ошибка: все параметры стоят при одной\n"
+                        "степени x и являются неразличимыми.\n\n"
+                        "Например, a*x + b*x ≡ (a+b)*x — это одна степень\n"
+                        "свободы. МНК распределит коэффициент между a и b\n"
+                        "произвольно, результат будет бессмысленным.\n\n"
+                        "Используйте форму с независимыми параметрами:\n"
+                        "a*x + b  или  a*x^2 + b*x + c"
+                    )
+
+            return True, ""
+
+        except sp.PolynomialError:
+            return False, (
+                "Функция не является полиномом по x.\n"
+                "Для полиномиальной регрессии используйте форму вида:\n"
+                "a*x^2 + b*x + c"
+            )
+        except Exception as e:
+            return False, f"Ошибка разбора функции: {e}"
+
     def find_approxima_func(self):
         approximation_type = self.approximation_type_var.get()
         func_str_result = ""
@@ -590,7 +686,13 @@ class TopLevel(BaseMNK, ctk.CTkToplevel):
             return
 
         if approximation_type == "Полиномиальная регрессия":
-            func_str = self.approxima_view_field.get()
+            func_str = self.approxima_view_field.get().lower()
+            
+            valid, msg = self.validate_polynomial_form(func_str)
+            if not valid:
+                self.show_popup(msg, "error")
+                self.on_change_clear()
+                return
 
             if not self.check_enough_points_for_polynomial(func_str):
                 self.on_change_clear()
@@ -663,7 +765,13 @@ class TopLevel(BaseMNK, ctk.CTkToplevel):
                 self.plot_approximation(func_str_result, "logarithmic")
 
         elif approximation_type == "Дробно-рациональная (общая)":
-            func_str = self.approxima_view_field.get()
+            func_str = self.approxima_view_field.get().lower()
+            
+            valid, msg = self.validate_rational_form(func_str)
+            if not valid:
+                self.show_popup(msg, "error")
+                self.on_change_clear()
+                return
 
             if not self.check_enough_points_for_rational(func_str):
                 self.on_change_clear()

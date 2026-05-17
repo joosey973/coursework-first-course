@@ -1,4 +1,4 @@
-# Курсовая работа — первый курс
+# Курсовая работа
 
 [![CI](https://github.com/joosey973/coursework-first-course/actions/workflows/lint.yml/badge.svg)](https://github.com/joosey973/coursework-first-course/actions/workflows/lint.yml)
 ![Python](https://img.shields.io/badge/Python-3.9%2B-pink)
