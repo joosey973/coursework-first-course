@@ -42,7 +42,9 @@ class Equation(BaseWindow):
 
     def find_function_values(self, x, function_choice):
         return (
-            self.first_function(x) if function_choice == 1 else self.second_function(x)
+            self.first_function(x)
+            if function_choice == 1
+            else self.second_function(x)
         )
 
     def find_derivative(self, x, function_choice):

@@ -83,7 +83,7 @@ class BaseMethods:
         matrix = [cop[:] for cop in matrix]
         del matrix[row]
         for i in range(len(matrix)):
-            matrix[i] = matrix[i][:col] + matrix[i][col + 1 :]
+            matrix[i] = matrix[i][:col] + matrix[i][col + 1:]  # fmt: skip
 
         return matrix
 

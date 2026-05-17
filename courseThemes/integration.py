@@ -399,21 +399,31 @@ class Integration(BaseIntegration, BaseWindow):
                 self.parent.after(
                     0,
                     lambda: self.show_error(
-                        "Нижний предел не может быть" " больше верхнего или равен ему!",
+                        "Нижний предел не может быть"
+                        " больше верхнего или равен ему!",
                     ),
                 )
                 self.parent.after(0, self._hide_loading)
                 return
 
-            func = self.integral_func_two if function_choice else self.integral_func_one
+            func = (
+                self.integral_func_two
+                if function_choice
+                else self.integral_func_one
+            )
             left_pointer = 0
             right_pointer = 5000
             n_min = None
 
             iteration = 0
-            while left_pointer <= right_pointer and not self.loading_dialog.cancel_flag:
+            while (
+                left_pointer <= right_pointer
+                and not self.loading_dialog.cancel_flag
+            ):
                 mid_pointer = (left_pointer + right_pointer) // 2
-                mid_pointer = mid_pointer + 1 if mid_pointer % 2 != 0 else mid_pointer
+                mid_pointer = (
+                    mid_pointer + 1 if mid_pointer % 2 != 0 else mid_pointer
+                )
 
                 iteration += 1
                 if iteration % 10 == 0:
@@ -493,7 +503,8 @@ class Integration(BaseIntegration, BaseWindow):
             if not function_choice:
                 if 3 * val**2 - 2.5 <= 0:
                     self.show_error(
-                        "Некорректно введен диапазон " "(x ∈ (-∞; -0,91) ∪ (0,91; +∞))",
+                        "Некорректно введен диапазон "
+                        "(x ∈ (-∞; -0,91) ∪ (0,91; +∞))",
                     )
                     return None
             else:

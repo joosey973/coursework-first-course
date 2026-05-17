@@ -15,7 +15,8 @@ class LoadingDialog:
 
     def show(
         self,
-        message="Вычисление минимального n...\n" "Это может занять некоторое время",
+        message="Вычисление минимального n...\n"
+        "Это может занять некоторое время",
     ):
         self.cancel_flag = False
 
@@ -27,8 +28,10 @@ class LoadingDialog:
         self.dialog.resizable(False, False)
 
         self.dialog.update_idletasks()
-        x = self.parent.winfo_x() + (self.parent.winfo_width() // 2) - (350 // 2)
-        y = self.parent.winfo_y() + (self.parent.winfo_height() // 2) - (150 // 2)
+        x = self.parent.winfo_x()
+        x += (self.parent.winfo_width() // 2) - (350 // 2)
+        y = self.parent.winfo_y()
+        y += (self.parent.winfo_height() // 2) - (150 // 2)
         self.dialog.geometry(f"+{x}+{y}")
 
         self.label = ttk.Label(

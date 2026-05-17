@@ -175,7 +175,8 @@ class MNK(BaseMNK, BaseWindow):
         if coef3 is not None:
             f3 = self.get_function(coef3, "exp")
             f33 = [
-                coef3[0] * math.e ** (-coef3[1] * x_val) for x_val, _ in self.x_y_list
+                coef3[0] * math.e ** (-coef3[1] * x_val)
+                for x_val, _ in self.x_y_list
             ]
             func_arr.append(f3)
         else:
@@ -263,7 +264,8 @@ class MNK(BaseMNK, BaseWindow):
 
         if coef3 is not None:
             y3 = [
-                coef3[0] * math.e ** (-coef3[1] * x_val) for x_val, _ in self.x_y_list
+                coef3[0] * math.e ** (-coef3[1] * x_val)
+                for x_val, _ in self.x_y_list
             ]
             self.ax.plot(
                 x_dots,

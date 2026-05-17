@@ -418,7 +418,9 @@ class TopLevel(BaseMNK, ctk.CTkToplevel):
             )
 
             first_nonzero = (
-                np.argmax(np.abs(coefficients) > 1e-6) if len(coefficients) > 0 else 0
+                np.argmax(np.abs(coefficients) > 1e-6)
+                if len(coefficients) > 0
+                else 0
             )
             if first_nonzero < len(coefficients):
                 coefficients = coefficients / coefficients[first_nonzero]

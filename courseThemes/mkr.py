@@ -340,7 +340,8 @@ class MKR(BaseWindow):
                         value = float(raw_value)
                     except ValueError:
                         self.show_popup(
-                            f"Значение поля '{display_name}'" " должно быть float/int",
+                            f"Значение поля '{display_name}'"
+                            " должно быть float/int",
                         )
                         return
 

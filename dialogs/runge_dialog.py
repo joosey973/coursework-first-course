@@ -258,13 +258,15 @@ class RungeDialog(BaseIntegration):
             summary += f"{result['method']}:\n"
 
             if result["accuracy_achieved"]:
-                summary += f"  ✓ Точность достигнута при n = {result['final_n']}\n"
+                summary += "  ✓ Точность достигнута"
+                f" при n = {result['final_n']}\n"
                 summary += f"  ○ Погрешность: {result['error']:.2e}\n"
                 if result["improved_value"] is not None:
                     summary += "  ○ Уточненное значение:"
                     f" {result['improved_value']:.8f}\n"
             else:
-                summary += f"  ✗ Точность НЕ достигнута при n = {result['final_n']}\n"
+                summary += "  ✗ Точность НЕ достигнута при"
+                f" n = {result['final_n']}\n"
                 summary += f"  ○ Текущая погрешность: {result['error']:.2e}\n"
                 summary += f"  ○ Требуемая точность: {eps}\n"
 
@@ -302,7 +304,8 @@ class RungeDialog(BaseIntegration):
         self.runge_dialog.resizable(False, False)
         self.runge_dialog.configure(bg=config.BACKGROUNG_COLOR)
         self.runge_dialog.update_idletasks()
-        x = self.parent.winfo_x() + (self.parent.winfo_width() // 2) - (self.width // 2)
+        x = self.parent.winfo_x() + (self.parent.winfo_width() // 2)
+        x -= self.width // 2
         y = (
             self.parent.winfo_y()
             + (self.parent.winfo_height() // 2)
