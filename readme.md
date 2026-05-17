@@ -5,7 +5,7 @@
 ![Tkinter](https://img.shields.io/badge/GUI-Tkinter-orange)
 
 Десктопное учебное приложение на Python с графическим интерфейсом (Tkinter). Реализует обучающий курс по высшей математике с поддержкой светлой и тёмной темы оформления.
-
+[Установить GUI](https://github.com/joosey973/coursework-first-course/releases/latest)
 ---
 
 ## Возможности
