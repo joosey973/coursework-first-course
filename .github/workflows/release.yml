@@ -4,6 +4,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     strategy:
@@ -11,16 +14,10 @@ jobs:
         include:
           - os: windows-latest
             artifact_name: coursework.exe
-            pyinstaller_args: "--onefile --windowed"
-            icon_arg: "--icon assets/icon.ico"
           - os: macos-latest
             artifact_name: coursework.dmg
-            pyinstaller_args: "--windowed"
-            icon_arg: "--icon assets/icon.icns"
           - os: ubuntu-latest
             artifact_name: coursework
-            pyinstaller_args: "--onefile --windowed"
-            icon_arg: "--icon assets/icon.ico"
 
     runs-on: ${{ matrix.os }}
 
@@ -36,19 +33,35 @@ jobs:
           pip install pyinstaller
           pip install -r requirements/prod.txt
 
-      - name: Build with PyInstaller (Windows)
+      - name: Increase pagefile (Windows)
         if: matrix.os == 'windows-latest'
-        run: pyinstaller --onefile --windowed --name coursework --icon assets/icon.ico main.py
+        shell: powershell
+        run: |
+          $computersys = Get-WmiObject Win32_ComputerSystem -EnableAllPrivileges
+          $computersys.AutomaticManagedPagefile = $false
+          $computersys.Put()
+          $pagefile = Get-WmiObject Win32_PageFileSetting
+          $pagefile.InitialSize = 8192
+          $pagefile.MaximumSize = 16384
+          $pagefile.Put()
 
-      - name: Build with PyInstaller (Linux)
+      - name: Build (Windows)
+        if: matrix.os == 'windows-latest'
+        shell: powershell
+        run: |
+          pyinstaller --onefile --windowed --name coursework --icon assets/icon.ico main.py
+
+      - name: Build (Linux)
         if: matrix.os == 'ubuntu-latest'
-        run: pyinstaller --onefile --windowed --name coursework --icon assets/icon.ico main.py
+        run: |
+          pyinstaller --onefile --windowed --name coursework --icon assets/icon.ico main.py
 
-      - name: Build with PyInstaller (macOS)
+      - name: Build (macOS)
         if: matrix.os == 'macos-latest'
-        run: pyinstaller --windowed --name coursework --icon assets/icon.icns main.py
+        run: |
+          pyinstaller --windowed --name coursework --icon assets/icon.icns main.py
 
-      - name: Package DMG (macOS only)
+      - name: Package DMG (macOS)
         if: matrix.os == 'macos-latest'
         run: |
           brew install create-dmg
